@@ -4,7 +4,7 @@
 # the next time 'make getlibs' is run.
 #
 bsp-assistant capsense-configurator capsense-tuner config device-configurator dfuh-tool config_ezpd ez-pd-configurator modlibs library-manager qspi-configurator seglcd-configurator smartio-configurator config_usbdev usbdev-configurator power-conversion-configurator :
-	make -C psoc_c3_dlm_andro3p0_can_5012 $@
+	make -C IMR_REF_48V_2x1KW_ASFOC $@
 
 config_bt bt-configurator config_lin lin-configurator config_ml secure-policy-configurator :
 	$(error $@ configurator cannot be executed at the application level. Run this command from the desired project directory.)
