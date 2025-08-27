@@ -1,0 +1,105 @@
+{
+	"version": "2.6.1",
+	"components": [
+		{
+			"tabName": "Workspace1",
+			"componentLabel": "TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16",
+			"variable": [
+				{
+					"symbol": "TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16",
+					"address": 872416572,
+					"type": "int16_t",
+					"isPointer": false,
+					"numBits": 16
+				}
+			],
+			"maxVariables": 1,
+			"isReadonly": false,
+			"isUIParameter": false,
+			"uiParameterId": "",
+			"min": -32768,
+			"max": 32767,
+			"textAlign": "Left",
+			"readFormula": "",
+			"writeFormula": "",
+			"disableFormula": "",
+			"displayFormula": "",
+			"unit": "",
+			"componentType": "numericIndicator",
+			"position": [
+				2,
+				3
+			],
+			"componentIndex": 1,
+			"lockedTo": -1,
+			"size": [
+				5,
+				6
+			],
+			"value": [
+				-28000
+			],
+			"minSize": [
+				4,
+				4
+			],
+			"maxSize": [
+				7,
+				15
+			]
+		},
+		{
+			"tabName": "Workspace1",
+			"componentLabel": "TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16",
+			"variable": [
+				{
+					"symbol": "TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16",
+					"address": 872416624,
+					"type": "int16_t",
+					"isPointer": false,
+					"numBits": 16
+				}
+			],
+			"maxVariables": 1,
+			"isReadonly": false,
+			"isUIParameter": false,
+			"uiParameterId": "",
+			"min": -32768,
+			"max": 32767,
+			"textAlign": "Left",
+			"readFormula": "",
+			"writeFormula": "",
+			"disableFormula": "",
+			"displayFormula": "",
+			"unit": "",
+			"componentType": "numericIndicator",
+			"position": [
+				9,
+				3
+			],
+			"componentIndex": 2,
+			"lockedTo": -1,
+			"size": [
+				5,
+				6
+			],
+			"value": [
+				-19000
+			],
+			"minSize": [
+				4,
+				4
+			],
+			"maxSize": [
+				7,
+				15
+			]
+		}
+	],
+	"definitions": [],
+	"tabs": [
+		"Workspace1"
+	],
+	"deviceName": "PSC3xxF",
+	"elfPath": "..\\build\\REF_48V_2x1KW_ASFOC\\Debug\\mtb-example-ce241420-dual-motor-control.elf"
+}
