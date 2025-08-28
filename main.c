@@ -156,19 +156,19 @@ int main(void)
 	can_fd_init();
 	#endif
     
-    motor[0].params_ptr->sys.cmd.source = External;
-    motor[1].params_ptr->sys.cmd.source = External;
+    motor[0].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE;
+    motor[1].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE_M1;
     
     //---------------------------------------------------------
     //--- setting for boards in Infineon Mobile Robot (IMR)
     //---------------------------------------------------------
 	if (DLM_BRD_POSITION == 0) { // front board
-		vars[0].dir = -1;
-		vars[1].dir =  1;
-	}
-	else if (DLM_BRD_POSITION == 1) { // back board
 		vars[0].dir =  1;
 		vars[1].dir = -1;
+	}
+	else if (DLM_BRD_POSITION == 1) { // back board
+		vars[0].dir = -1;
+		vars[1].dir =  1;
 	}
 	//---------------------------------------------------------
 

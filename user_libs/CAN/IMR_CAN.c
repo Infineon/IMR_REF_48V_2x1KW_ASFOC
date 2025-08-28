@@ -226,8 +226,8 @@ void can_rx_speed_cmd(float speed_frac[2]) {
     if (DLM_BRD_POSITION == 0) { // front board
         for (int i = 0; i < MOTOR_CTRL_NO_OF_MOTOR; i++) {
             vars[i].cmd_ext = fabs(speed_frac[i]);
-            if (speed_frac[i] < 0) vars[i].dir = 1.0;
-            else vars[i].dir = -1.0;
+            if (speed_frac[i] < 0) vars[i].dir = -1.0;
+            else vars[i].dir = 1.0;
             speed_percent[i] = (uint8_t)(int8_t)(speed_frac[i] * 100.0);
         }
 	}
@@ -235,8 +235,8 @@ void can_rx_speed_cmd(float speed_frac[2]) {
         for (int i = 0; i < MOTOR_CTRL_NO_OF_MOTOR; i++) {
             vars[i].cmd_ext = fabs(speed_frac[MOTOR_CTRL_NO_OF_MOTOR-1-i]);
             if (speed_frac[MOTOR_CTRL_NO_OF_MOTOR-1-i] < 0)
-            	vars[i].dir   = 1.0;
-            else vars[i].dir = -1.0;
+            	vars[i].dir  = -1.0;
+            else vars[i].dir = 1.0;
             speed_percent[i] = (uint8_t)(int8_t)
             		(speed_frac[MOTOR_CTRL_NO_OF_MOTOR-1-i] * 100.0);
         }

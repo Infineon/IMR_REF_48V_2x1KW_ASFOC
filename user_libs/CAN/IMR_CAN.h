@@ -42,7 +42,7 @@
 /*******************************************************************************
 * Definitions
 *******************************************************************************/
-#define GUI_CONTROL				1		// 0: speed given by IMR CAN command
+#define GUI_CONTROL				0		// 0: speed given by IMR CAN command
 										// 1: speed given by Motor Suite GUI
 #define CAN_DATA_REFRESH_TIME	100   	// refresh time in msec
 #define CAN_SPEED_DIVIDER		32760.0	// divisor for CAN speed as CAN speed
@@ -56,7 +56,7 @@
 #define VMAX_ROBOT				3.0		// [m/s]
 // theoretical maximum value for the wheel speed
 #define SMAX_WHEEL				(VMAX_ROBOT/R_WHEEL) // [rad/s]
-#define RADPS2_15BIT			(32768.0/SMAX_WHEEL)
+#define RADPS2_15BIT			(32768.0/SMAX_WHEEL) // 546.133
 
 /*******************************************************************************
 * CAN Macros
