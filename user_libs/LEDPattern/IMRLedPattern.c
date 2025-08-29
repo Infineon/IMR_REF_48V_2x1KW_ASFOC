@@ -188,15 +188,15 @@ void barGraph(int8_t left_speed, int8_t right_speed)
 	int8_t n_leds_left = left_speed * N_LEDS_FULL_BAR / 100;
 	int8_t n_leds_right = right_speed * N_LEDS_FULL_BAR / 100;
 
-	if (n_leds_left  < 0) { // forward motion with n_leds_right(+)
+	if (n_leds_left  < 0) { // backward motion with n_leds_right(+)
 		n_leds_left  = -n_leds_left;
-		setLEDColor(CYAN, color_left);
-	} else setLEDColor(MAGENTA, color_left); // backward motion
+		setLEDColor(MAGENTA, color_left);
+	} else setLEDColor(CYAN, color_left); // forward motion
 
-	if (n_leds_right < 0) { // backward motion with n_leds_left(+)
+	if (n_leds_right < 0) { // forward motion with n_leds_left(+)
 		n_leds_right = -n_leds_right;
-		setLEDColor(MAGENTA, color_right);
-	} else setLEDColor(CYAN, color_right); // forward motion
+		setLEDColor(CYAN, color_right);
+	} else setLEDColor(MAGENTA, color_right); // backward motion
 
 	bool robotLEDlayer[56] = {0}; 	  // 1 layer with total 56 LEDs to be ON
 	bool robotLEDlayer_off[56] = {0}; // 1 layer with total 56 LEDs to be OFF
@@ -298,15 +298,15 @@ void ledSnake_shortBoard(int8_t left_speed, int8_t right_speed)
 	int8_t n_leds_left = left_speed * N_LEDS_FULL_BAR / 100;
 	int8_t n_leds_right = right_speed * N_LEDS_FULL_BAR / 100;
 
-	if (n_leds_left  < 0) { // forward motion with n_leds_right(+)
+	if (n_leds_left  < 0) { // backward motion with n_leds_right(+)
 		n_leds_left  = -n_leds_left;
-		setLEDColor(CYAN, color_left);
-	} else setLEDColor(MAGENTA, color_left); // backward motion
+		setLEDColor(MAGENTA, color_left);
+	} else setLEDColor(CYAN, color_left); // forward motion
 
-	if (n_leds_right < 0) { // backward motion with n_leds_left(+)
+	if (n_leds_right < 0) { // forward motion with n_leds_left(+)
 		n_leds_right = -n_leds_right;
-		setLEDColor(MAGENTA, color_right);
-	} else setLEDColor(CYAN, color_right); // forward motion
+		setLEDColor(CYAN, color_right);
+	} else setLEDColor(MAGENTA, color_right); // backward motion
 
 	uint32_t bar_left  = (n_leds_left == 0 ? 0 :(1 << n_leds_left)-1);
 	uint32_t bar_right = (n_leds_right == 0 ? 0 : (1 << n_leds_right)-1);
@@ -322,7 +322,7 @@ void ledSnake_shortBoard(int8_t left_speed, int8_t right_speed)
 		leftLED_on[i]  =  (bar_left >> i) & 1;
 		leftLED_off[i] = !(bar_left >> i) & 1;
 	}
-	if (left_speed < 0) { // forward motion: bottom LED board starts from back
+	if (left_speed > 0) { // forward motion: bottom LED board starts from back
 		for (int j = 0; j < N_LEDS_ISHAPE; j++)
 		{
 			leftBOT_on[0][j]  = leftLED_on[N_LEDS_ISHAPE-1-j]; // bottom board
@@ -363,7 +363,7 @@ void ledSnake_shortBoard(int8_t left_speed, int8_t right_speed)
 		rightLED_on[i]  =  (bar_right >> i) & 1;
 		rightLED_off[i] = !(bar_right >> i) & 1;
 	}
-	if (right_speed < 0) { // backward motion: bottom LED starts from front
+	if (right_speed > 0) { // backward motion: bottom LED starts from front
 		for (int j = 0; j < N_LEDS_ISHAPE; j++)
 		{
 			rightBOT_on[0][j]  = rightLED_on[N_LEDS_ISHAPE-1-j]; // bottom board

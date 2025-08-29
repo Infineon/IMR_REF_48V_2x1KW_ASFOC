@@ -37,8 +37,8 @@
 #include "MCU.h"  // microcontroller
 #include "ParamConfig.h" // for fast-loop frequency
 
-#define BOARD_VERSION		0	// 0 = old version of the board HW
-								// 1 = new version of the board HW
+#define BOARD_VERSION		0	// 0 = old version of PWR_Si_board V1.0
+								// 1 = new version of PWR Si_board e.g. V1.1
 
 //------ Smart Gate Driver ------------
 #ifndef USING_SGD
