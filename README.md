@@ -81,39 +81,38 @@ The CAN message IDs have been specifically written for [Infineon Mobile Robot (I
 </p>
 <br>
 
-## Requirements
 
-- [ModusToolbox™](https://www.infineon.com/modustoolbox) v3.5 or later
+## Hardware requirements and setup
+
+- Motor control reference design board: [REF_48V_2x1KW_ASFOC](https://www.infineon.com/evaluation-board/REF-48V-2X1KW-ASFOC).
+- Angle sensor boards supplied together with the above reference design or separate board e.g. [DEMO_IMR_ANGLE_SENS_V1](https://www.infineon.com/evaluation-board/DEMO-IMR-ANGLE-SENS-V1).
+- Diametrical magnet suitable for the above sensor e.g. [SM-10x05-N-D](https://www.magnet-shop.com/neodymium/discmagnets/discmagnet-10.0-x-5.0-mm-n45-nickel-diametral-magnetized). Simulation tool to get the right design for the magnet and sensor is available [here](https://design.infineon.com/sensor/anglesim/index.html).
+- Associated motor, of which motor parameters are used in this code example: [T-MOTOR GL60 KV25](https://shop.tmotor.com/products/t-motor-cubemars-gl-series-out-running-gimbal-brushless-motor-gl60-high-precision-hollow-shaft-for-gopro-aerial-photography?srsltid=AfmBOop304FnngglpV7aqp4LnRk96rERR8SXZrmy-oCN1Am3AygFbya0) or motor suggested by the user manual of the above reference design board. However please note that the motor parameters have to be adjusted accordingly. 
+- Fixture to mount the magnet in the center of the motor and angle sensor. For example, for the above hardware, below drawing can be used.
+    <picture>
+        <img src="./images/Fixture.jpg">
+    </picture>
+    &nbsp;
+- Programmer and Debugger for the board e.g. [XMC™ Link](https://www.infineon.com/evaluation-board/KIT-XMC-LINK-SEGGER-V1).
+- For testing CAN communication, [PCAN-USB](https://www.peak-system.com/Hardware.69.0.html?&L=1) will come in handy.
+
+See the respective kit quick start guide for the hardware setup information. For details, see the [User Manual](https://www.infineon.com/assets/row/public/documents/24/44/infineon-reference-board-ref-48v-2x1kw-asfoc-usermanual-en.pdf)  of the above reference design board. For testing CAN communication, ensure the CAN-H and CAN-L lines of the board are connected to the respective lines of the PCAN USB device. 
+
+
+## Software requirements and setup
+
+- [ModusToolbox™](https://www.infineon.com/modustoolbox) v3.5 or later. See the [ModusToolbox™ tools package installation guide](https://www.infineon.com/ModusToolboxInstallguide) for information about installing and configuring the tools package.
 - Board support package (BSP) minimum required version: 1.0.3
 - Programming language: C
-- Motor control reference design board: [REF_48V_2x1KW_ASFOC](https://www.infineon.com/evaluation-board/REF-48V-2X1KW-ASFOC)
-- Angle sensor boards supplied together with the above reference design or separate board e.g. [DEMO_IMR_ANGLE_SENS_V1](https://www.infineon.com/evaluation-board/DEMO-IMR-ANGLE-SENS-V1)
-- Associated motor, of which motor parameters are used in this code example: [T-MOTOR GL60 KV25](https://shop.tmotor.com/products/t-motor-cubemars-gl-series-out-running-gimbal-brushless-motor-gl60-high-precision-hollow-shaft-for-gopro-aerial-photography?srsltid=AfmBOop304FnngglpV7aqp4LnRk96rERR8SXZrmy-oCN1Am3AygFbya0) or motor suggested by the user manual of the above reference design board. However please note that the motor parameters have to be adjusted accordingly. 
-- Programmer and Debugger for the board e.g. [XMC™ Link](https://www.infineon.com/evaluation-board/KIT-XMC-LINK-SEGGER-V1).
+- ModusToolbox™ Motor Suite GUI from the [Infineon Developer Center](https://www.infineon.com/idc) to evaluate the GUI features.
+- [J-Link Software](https://www.segger.com/downloads/jlink/) to allow the use of XMC™ Link to program the board and debug the software. 
+- For testing CAN communication, install [PCAN-View](https://www.peak-system.com/PCAN-View.242.0.html?&L=1) to view, transmit, and record the CAN data traffic in Windows-based PC. 
 
 
 ## Supported toolchains (make variable 'TOOLCHAIN')
 
 - GNU Arm&reg; Embedded Compiler v11.3.1 (`GCC_ARM`) – Default value of `TOOLCHAIN`
 - IAR C/C++ Compiler v9.50.2 (`IAR`)
-
-
-## Hardware setup
-
-See the respective kit quick start guide for the hardware setup information. For details, see [User Manual of the above reference design board](https://www.infineon.com/assets/row/public/documents/24/44/infineon-reference-board-ref-48v-2x1kw-asfoc-usermanual-en.pdf).
-
-For testing CAN communication, ensure the CAN-H and CAN-L lines of the board are connected to the [PCAN USB device](https://www.peak-system.com/Hardware.69.0.html?&L=1).
-
-
-## Software setup
-
-See the [ModusToolbox™ tools package installation guide](https://www.infineon.com/ModusToolboxInstallguide) for information about installing and configuring the tools package.
-
-Install ModusToolbox™ Motor Suite GUI from the [Infineon Developer Center](https://www.infineon.com/idc) to evaluate the GUI features.
-
-Install [J-Link Software](https://www.segger.com/downloads/jlink/) to allow the use of XMC™ Link to program the board and debug the software. 
-
-For testing CAN communication, install [PCAN-View](https://www.peak-system.com/PCAN-View.242.0.html?&L=1) to view, transmit, and record the CAN data traffic in Windows-based PC. 
 
 
 ## Important notes
@@ -128,6 +127,8 @@ User definitions and offset values [to be set correctly](#using-the-code-example
 - GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h
 - TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
 - TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
+
+Out of the scope from this code example is the potentiometer for speed inputs for the 2 motors included in the hardware kit. In this code example, speed inputs are either from ModusToolbox™ Motor Suite GUI or from CAN message ID (i.e. ID 380h for Motor_0 and 381h for Motor_1). 
 
 
 ## Using the code example
