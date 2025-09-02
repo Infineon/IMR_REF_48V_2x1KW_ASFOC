@@ -88,7 +88,7 @@ The CAN message IDs have been specifically written for [Infineon Mobile Robot (I
 - Angle sensor boards supplied together with the above reference design or separate board e.g. [DEMO_IMR_ANGLE_SENS_V1](https://www.infineon.com/evaluation-board/DEMO-IMR-ANGLE-SENS-V1).
 - Diametrical magnet suitable for the above sensor e.g. [SM-10x05-N-D](https://www.magnet-shop.com/neodymium/discmagnets/discmagnet-10.0-x-5.0-mm-n45-nickel-diametral-magnetized). Simulation tool to get the right design for the magnet and sensor is available [here](https://design.infineon.com/sensor/anglesim/index.html).
 - Associated motor, of which motor parameters are used in this code example: [T-MOTOR GL60 KV25](https://shop.tmotor.com/products/t-motor-cubemars-gl-series-out-running-gimbal-brushless-motor-gl60-high-precision-hollow-shaft-for-gopro-aerial-photography?srsltid=AfmBOop304FnngglpV7aqp4LnRk96rERR8SXZrmy-oCN1Am3AygFbya0) or motor suggested by the user manual of the above reference design board. However please note that the motor parameters have to be adjusted accordingly. 
-- Fixture to mount the magnet in the center of the motor and angle sensor. For example, for the above hardware, below drawing can be used.<br>
+- Fixture to mount the magnet in the center of the motor and angle sensor. For example, for the above hardware, below drawing can be used.<br><br>
     <picture>
         <img src="./images/Fixture.jpg">
     </picture>
@@ -129,6 +129,17 @@ User definitions and offset values [to be set correctly](#using-the-code-example
 - TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
 
 Out of the scope from this code example is the potentiometer for speed inputs for the 2 motors included in the hardware kit. In this code example, speed inputs are either from ModusToolbox™ Motor Suite GUI or from CAN message ID (i.e. ID 380h for Motor_0 and 381h for Motor_1). 
+
+
+### User LEDs indicator
+
+On the power stage board: 
+- Red LED indicates the board is powered on.
+
+On the control card:
+- Green LED indicates the board is powered on.
+- Orange LED indicates the CAN communication with other subsystems is established.
+- Red LED indicates any faults detected by the board.
 
 
 ## Using the code example
