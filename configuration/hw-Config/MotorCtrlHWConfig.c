@@ -78,7 +78,7 @@ void MCU_RoutingConfigMUXA()
 {
     const cy_stc_hppass_sar_grp_t ADC_SEQ0_Config =
     {
-        .dirSampMsk = 0x00DU,
+        .dirSampMsk = 0x005U,
         .muxSampMsk = 0x8U,
         .muxChanIdx = {0U,0U,0U,0U},
         .trig = CY_HPPASS_SAR_TRIG_0,
