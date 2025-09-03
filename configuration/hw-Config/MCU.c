@@ -1506,7 +1506,7 @@ void MCU_RunISR1_M1()
 
     // Direction switch
 #if defined(DIR_SWITCH_M1_PORT) // switch
-    motor[1].sensor_iface_ptr->digital.dir = Cy_GPIO_Read(DIR_SWITCH_M1_PORT, DIR_SWITCH_M1_NUM);
+    motor[1].sensor_iface_ptr->digital.dir = !Cy_GPIO_Read(DIR_SWITCH_M1_PORT, DIR_SWITCH_M1_NUM);
 #elif defined(N_DIR_PUSHBTN_M1_PORT) // push button
     static bool user_btn_prev_m1, user_btn_m1 = true;
     user_btn_prev_m1 = user_btn_m1;

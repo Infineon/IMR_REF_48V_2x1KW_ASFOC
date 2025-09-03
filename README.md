@@ -120,6 +120,7 @@ See the respective kit quick start guide for the hardware setup information. For
 Please watch out for the boards version:
 - Power stage Si board V1.0 is considered to be old power board version. New version is labelled as V1.1. Ensure [BOARD_VERSION flag](#step10) is set accordingly. 
 - PSC3 control card V1.0 is considered to be the new control card version. Old version has no label. For V1.0, ensure the [pinout configuration](#step11) is correctly done accordingly. 
+<br><br>
 
 User definitions and offset values [to be set correctly](#using-the-code-example) in the code: 
 - BOARD_VERSION in .../configuration/hw-Config/HardwareIface.h
@@ -127,11 +128,17 @@ User definitions and offset values [to be set correctly](#using-the-code-example
 - GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h
 - TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
 - TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
+<br><br>
 
-Out of the scope from this code example is the potentiometer for speed inputs for the 2 motors included in the hardware kit. In this code example, speed inputs are either from ModusToolbox™ Motor Suite GUI or from CAN message ID (i.e. ID 380h for Motor_0 and 381h for Motor_1). 
+This code example works with three different sources of speed input:
+- ModusToolbox™ Motor Suite GUI i.e. set Potentiometer Control in the GUI to OFF
+- Coming from [CAN communication](#step29) if GUI_CONTROL in user definition is set to 0
+- Coming from the [potentiometer board](#step30) (supplied together with control card) 
+    - if Potentiometer Control in the ModusToolbox™ Motor Suite GUI is set to ON, or
+    - MOTOR_CTRL_COMMAND_SOURCE and MOTOR_CTRL_COMMAND_SOURCE_M1 value in .../configuration/motor-ctrl-lib-config/ParamConfig.h are set to Internal
 
 
-### User LEDs indicator
+#### User LEDs indicator
 
 On the power stage board: 
 - Red LED indicates the board is powered on.
@@ -147,7 +154,7 @@ On the control card:
 <ol>
 <li id="step1"> Clone the project repository into the local drive.
 <br><br></li>
-<li id="step2"> Import the project with the import wizard by pressing 'File' – 'Import…'. <br><br>
+<li id="step2"> Open the ModusToolbox™ IDE (e.g. Eclipse for ModusToolbox™ 2025.4) and import the project with the import wizard by pressing 'File' – 'Import…'. <br><br>
     <picture>
         <img src="./images/MTB_Import_1.png">
     </picture>
@@ -175,8 +182,7 @@ On the control card:
     <br>
     &nbsp;
 </li>
-<li id="step6"> Notice that additional folder 'mtb_shared' should be created (if there was none) in addition to the project folder itself, when the import is completed.<br>
-This motor control project relies on the motor control library (current release is v3.0.0) provided in the ModusToolbox™ as shown inside the mtb_shared folder.<br><br>
+<li id="step6"> Notice that additional folder 'mtb_shared' should be created (if there was none) in addition to the project folder itself, when the import is completed. This motor control project relies on the motor control library (current release is v3.0.0) provided in the ModusToolbox™ as shown inside the mtb_shared folder.<br><br>
     <picture>
         <img src="./images/MTB_Import_5.png">
     </picture>
@@ -209,12 +215,20 @@ Additionally, pay attention on the BOARD_VERSION value. It is set to 0 only when
 <br><br>
     <picture>
         <img src="./images/MTB_Import_9.png">
+    </picture><br>
+	<br>
+    <picture>
+        <img src="./images/PWRStage_v1p0.jpg">
     </picture>
 	<br>
     &nbsp;
 </li>
 <li id="step11"> Also if the PSC3 control card board is V1.0, one pinout configuration has to be modified by right clicking on the project, select 'ModusToolbox™' followed by 'Device Configurator 5...'.
 <br><br>
+    <picture>
+        <img src="./images/CCard_Diff.jpg">
+    </picture>
+	<br>
     <picture>
         <img src="./images/MTB_Import_10.png">
     </picture>
@@ -331,7 +345,7 @@ Notice in the oscilloscope that TLI_5012B_ABS_POS.Theta_TLI_5012B_flt may not we
     &nbsp;
 </li>
 <li id="step22"> To find the right offset value for the position angle sensor, launch a GUI Builder by pressing the first button (green button) on the right top corner of the GUI.<br>
-Press the open button ('Open Project') and navigate to the project folder to open the Enc_Sensor_Offsets.mcws project file. The project will automatically go into running mode once opened.<br>
+Press the open button ('Open Project') and navigate to the project folder to open the Enc_Sensor_Offsets.mcws project file. The project will automatically go into running mode once opened.<br><br>
 Alternatively, a new project can also be created by adding an input box (drag and drop) to contain the value of TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16 and remove the check for the 'Readonly', and set the minimum and maximum value to -32768 and 32767 accordingly. Add another input box for the second position sensor TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16. Press the play button ('Switch to Run Mode') once it is ready to deploy in real time.
 <br><br>
 	<picture>
@@ -424,7 +438,7 @@ Alternatively, a new project can also be created by adding an input box (drag an
     <br>
     &nbsp;
 </li>
-<li id="step27"> To test for the CAN communication, PCAN-USB can transmit a CAN-ID 380h with 2 bytes data length for a speed command to Motor_0 (press ENTER key to set the CAN message, and press SPACE key to transmit the message). A CAN-ID 381h can be used to transmit a speed command to Motor_1. 
+<li id="step29"> To test for the CAN communication, PCAN-USB can transmit a CAN-ID 380h with 2 bytes data length for a speed command to Motor_0 (press ENTER key to set the CAN message, and press SPACE key to transmit the message). A CAN-ID 381h can be used to transmit a speed command to Motor_1. 
 <br><br>
 <table style="width:50%">
   <tr>
@@ -455,6 +469,23 @@ Alternatively, a new project can also be created by adding an input box (drag an
     <br>
 	<picture>
         <img src="./images/MTB_Import_46.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step30"> To provide motor speed input easily, a potentiometer board is included in the hardware kit. Ensure that the ribbon cable is connected between the potentiometer board and control card.<br>
+Set the Potentiometer Control in the GUI to ON for each motor and test it by turning the potentiometer. The rotation direction can be controlled by using the switch on potentiometer board. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_47.jpg">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_48.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_49.jpg">
     </picture>
     <br>
     &nbsp;

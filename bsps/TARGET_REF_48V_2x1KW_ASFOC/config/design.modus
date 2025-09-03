@@ -3,30 +3,12 @@
     <Devices>
         <Device mpn="PSC3M5FDS2AFQ1">
             <BlockConfig>
-                <Block location="ioss[0].port[2].pin[0]"/>
-                <Block location="ioss[0].port[4].pin[6]"/>
-                <Block location="ioss[0].port[4].pin[7]"/>
-                <Block location="ioss[0].port[5].pin[0]"/>
-                <Block location="ioss[0].port[5].pin[3]"/>
-                <Block location="pass[0].sar[0].ch[5]"/>
-                <Block location="pass[0].sar[0].ch[6]"/>
-                <Block location="pass[0].sar[0].ch[11]"/>
-                <Block location="pass[0].sar[0].ch[12]"/>
-                <Block location="pass[0].sar[0].ch[16]"/>
-                <Block location="pass[0].sar[0].ch[20]"/>
-                <Block location="pass[0].sar[0].ch[24]"/>
-                <Block location="pass[0].sar[0].muxed_sampler[0]">
-                    <Aliases>
-                        <Alias value="CYBSP_MIKROBUS_AN"/>
-                        <Alias value="CYBSP_POT"/>
-                        <Alias value="CYBSP_POT1"/>
-                    </Aliases>
-                </Block>
-                <Block location="pass[0].sar[0].muxed_sampler[1]">
-                    <Aliases>
-                        <Alias value="CYBSP_POT2"/>
-                    </Aliases>
-                </Block>
+                <Block location="pass[0].sar[0].ch[3]"/>
+                <Block location="pass[0].sar[0].ch[4]"/>
+                <Block location="pass[0].sar[0].dir_sampler[3]"/>
+                <Block location="pass[0].sar[0].dir_sampler[4]"/>
+                <Block location="pass[0].sar[0].muxed_sampler[0]"/>
+                <Block location="pass[0].sar[0].muxed_sampler[1]"/>
                 <Personality template="canfd" version="3.0">
                     <Block location="canfd[0].chan[1]" locked="true">
                         <Aliases>
@@ -3498,33 +3480,6 @@
                     </Parameters>
                 </Personality>
                 <Personality template="hppass_sar_chan" version="1.0">
-                    <Block location="pass[0].sar[0].ch[3]" locked="true">
-                        <Aliases>
-                            <Alias value="ADC_SAMP_VPOT"/>
-                        </Aliases>
-                    </Block>
-                    <Parameters>
-                        <Param id="avg" value="CY_HPPASS_SAR_AVG_DISABLED"/>
-                        <Param id="fifoLoc" value="CY_HPPASS_FIFO_DISABLED"/>
-                        <Param id="limitLoc" value="CY_HPPASS_SAR_LIMIT_DISABLED"/>
-                        <Param id="sign" value="false"/>
-                    </Parameters>
-                </Personality>
-                <Personality template="hppass_sar_chan" version="1.0">
-                    <Block location="pass[0].sar[0].ch[4]" locked="true">
-                        <Aliases>
-                            <Alias value="ADC_SAMP_VPOT_M1"/>
-                        </Aliases>
-                    </Block>
-                    <Parameters>
-                        <Param id="avg" value="CY_HPPASS_SAR_AVG_DISABLED"/>
-                        <Param id="diff" value="false"/>
-                        <Param id="fifoLoc" value="CY_HPPASS_FIFO_DISABLED"/>
-                        <Param id="limitLoc" value="CY_HPPASS_SAR_LIMIT_DISABLED"/>
-                        <Param id="sign" value="false"/>
-                    </Parameters>
-                </Personality>
-                <Personality template="hppass_sar_chan" version="1.0">
                     <Block location="pass[0].sar[0].ch[7]" locked="true">
                         <Aliases>
                             <Alias value="ADC_SAMP_VBUS"/>
@@ -3579,6 +3534,33 @@
                         <Param id="sign" value="false"/>
                     </Parameters>
                 </Personality>
+                <Personality template="hppass_sar_chan" version="1.0">
+                    <Block location="pass[0].sar[0].ch[20]" locked="true">
+                        <Aliases>
+                            <Alias value="ADC_SAMP_VPOT_M1"/>
+                        </Aliases>
+                    </Block>
+                    <Parameters>
+                        <Param id="avg" value="CY_HPPASS_SAR_AVG_DISABLED"/>
+                        <Param id="diff" value="false"/>
+                        <Param id="fifoLoc" value="CY_HPPASS_FIFO_DISABLED"/>
+                        <Param id="limitLoc" value="CY_HPPASS_SAR_LIMIT_DISABLED"/>
+                        <Param id="sign" value="false"/>
+                    </Parameters>
+                </Personality>
+                <Personality template="hppass_sar_chan" version="1.0">
+                    <Block location="pass[0].sar[0].ch[24]" locked="true">
+                        <Aliases>
+                            <Alias value="ADC_SAMP_VPOT"/>
+                        </Aliases>
+                    </Block>
+                    <Parameters>
+                        <Param id="avg" value="CY_HPPASS_SAR_AVG_DISABLED"/>
+                        <Param id="fifoLoc" value="CY_HPPASS_FIFO_DISABLED"/>
+                        <Param id="limitLoc" value="CY_HPPASS_SAR_LIMIT_DISABLED"/>
+                        <Param id="sign" value="false"/>
+                    </Parameters>
+                </Personality>
                 <Personality template="hppass_sar_dir_samp" version="1.0">
                     <Block location="pass[0].sar[0].dir_sampler[0]" locked="true"/>
                     <Parameters>
@@ -3593,18 +3575,6 @@
                 </Personality>
                 <Personality template="hppass_sar_dir_samp" version="1.0">
                     <Block location="pass[0].sar[0].dir_sampler[2]" locked="true"/>
-                    <Parameters>
-                        <Param id="gain" value="CY_HPPASS_SAR_SAMP_GAIN_1"/>
-                    </Parameters>
-                </Personality>
-                <Personality template="hppass_sar_dir_samp" version="1.0">
-                    <Block location="pass[0].sar[0].dir_sampler[3]" locked="true"/>
-                    <Parameters>
-                        <Param id="gain" value="CY_HPPASS_SAR_SAMP_GAIN_1"/>
-                    </Parameters>
-                </Personality>
-                <Personality template="hppass_sar_dir_samp" version="1.0">
-                    <Block location="pass[0].sar[0].dir_sampler[4]" locked="true"/>
                     <Parameters>
                         <Param id="gain" value="CY_HPPASS_SAR_SAMP_GAIN_1"/>
                     </Parameters>
@@ -3633,6 +3603,27 @@
                         <Param id="gain" value="CY_HPPASS_SAR_SAMP_GAIN_1"/>
                     </Parameters>
                 </Personality>
+                <Personality template="hppass_sar_mux_samp" version="1.0">
+                    <Block location="pass[0].sar[0].muxed_sampler[2]" locked="true">
+                        <Aliases>
+                            <Alias value="CYBSP_POT2"/>
+                        </Aliases>
+                    </Block>
+                    <Parameters>
+                        <Param id="gain" value="CY_HPPASS_SAR_SAMP_GAIN_1"/>
+                    </Parameters>
+                </Personality>
+                <Personality template="hppass_sar_mux_samp" version="1.0">
+                    <Block location="pass[0].sar[0].muxed_sampler[3]" locked="true">
+                        <Aliases>
+                            <Alias value="CYBSP_POT"/>
+                            <Alias value="CYBSP_POT1"/>
+                        </Aliases>
+                    </Block>
+                    <Parameters>
+                        <Param id="gain" value="CY_HPPASS_SAR_SAMP_GAIN_1"/>
+                    </Parameters>
+                </Personality>
                 <Personality template="hppass_sar_seq_grp" version="2.0">
                     <Block location="pass[0].sar[0].seq[0].grp[0]" locked="true">
                         <Aliases>
@@ -3646,7 +3637,7 @@
                         <Param id="dirSampEn11r" value="false"/>
                         <Param id="dirSampEn1r" value="false"/>
                         <Param id="dirSampEn2r" value="true"/>
-                        <Param id="dirSampEn3r" value="true"/>
+                        <Param id="dirSampEn3r" value="false"/>
                         <Param id="dirSampEn4r" value="false"/>
                         <Param id="dirSampEn5r" value="false"/>
                         <Param id="dirSampEn6r" value="false"/>
@@ -3656,7 +3647,8 @@
                         <Param id="muxSampEn0" value="false"/>
                         <Param id="muxSampEn1" value="false"/>
                         <Param id="muxSampEn2" value="false"/>
-                        <Param id="muxSampEn3" value="false"/>
+                        <Param id="muxSampEn3" value="true"/>
+                        <Param id="muxSampSel3" value="0"/>
                         <Param id="priority" value="true"/>
                         <Param id="sampTimer" value="CY_HPPASS_SAR_SAMP_TIME_0"/>
                         <Param id="trig" value="CY_HPPASS_SAR_TRIG_0"/>
@@ -3705,7 +3697,7 @@
                         <Param id="dirSampEn1r" value="false"/>
                         <Param id="dirSampEn2r" value="false"/>
                         <Param id="dirSampEn3r" value="false"/>
-                        <Param id="dirSampEn4r" value="true"/>
+                        <Param id="dirSampEn4r" value="false"/>
                         <Param id="dirSampEn5r" value="false"/>
                         <Param id="dirSampEn6r" value="false"/>
                         <Param id="dirSampEn7r" value="false"/>
@@ -3713,8 +3705,9 @@
                         <Param id="dirSampEn9r" value="false"/>
                         <Param id="muxSampEn0" value="false"/>
                         <Param id="muxSampEn1" value="false"/>
-                        <Param id="muxSampEn2" value="false"/>
+                        <Param id="muxSampEn2" value="true"/>
                         <Param id="muxSampEn3" value="false"/>
+                        <Param id="muxSampSel2" value="0"/>
                         <Param id="priority" value="false"/>
                         <Param id="sampTimer" value="CY_HPPASS_SAR_SAMP_TIME_0"/>
                         <Param id="trig" value="CY_HPPASS_SAR_TRIG_2"/>

@@ -79,7 +79,7 @@ void MCU_RoutingConfigMUXA()
     const cy_stc_hppass_sar_grp_t ADC_SEQ0_Config =
     {
         .dirSampMsk = 0x00DU,
-        .muxSampMsk = 0x0U,
+        .muxSampMsk = 0x8U,
         .muxChanIdx = {0U,0U,0U,0U},
         .trig = CY_HPPASS_SAR_TRIG_0,
         .sampTime = CY_HPPASS_SAR_SAMP_TIME_0,
@@ -115,8 +115,8 @@ void MCU_RoutingConfigMUXB()
 {
     const cy_stc_hppass_sar_grp_t ADC_SEQ0_Config =
     {
-        .dirSampMsk = 0x018U,    // MUXA: 0x505U
-        .muxSampMsk = 0x1U,
+        .dirSampMsk = 0x080U,    // MUXA: 0x505U // 0x018U
+        .muxSampMsk = 0x8U,
         .muxChanIdx = {0U,0U,0U,0U},
         .trig = CY_HPPASS_SAR_TRIG_0,
         .sampTime = CY_HPPASS_SAR_SAMP_TIME_0,
@@ -125,8 +125,8 @@ void MCU_RoutingConfigMUXB()
     };
     const cy_stc_hppass_sar_grp_t ADC_SEQ1_Config =
     {
-        .dirSampMsk = 0x008U,    // MUXA: 0xA12U
-        .muxSampMsk = 0x4U,
+        .dirSampMsk = 0x000U,    // MUXA: 0xA12U // 0x008U
+        .muxSampMsk = 0x0U,
         .muxChanIdx = {0U,0U,0U,0U},
         .trig = CY_HPPASS_SAR_TRIG_1,
         .sampTime = CY_HPPASS_SAR_SAMP_TIME_0,
@@ -190,8 +190,8 @@ void MCU_RoutingConfigMUXA_M1()
 {
     const cy_stc_hppass_sar_grp_t ADC_SEQ0_M1_Config =
     {
-    	.dirSampMsk =0x510U,
-    	.muxSampMsk = 0x0U,
+    	.dirSampMsk =0x500U, //0x510U
+    	.muxSampMsk = 0x4U,
         .muxChanIdx = {0U,0U,0U,0U},
     	.trig = CY_HPPASS_SAR_TRIG_2,
     	.sampTime = CY_HPPASS_SAR_SAMP_TIME_0,
@@ -227,8 +227,8 @@ void MCU_RoutingConfigMUXB_M1()
 {
     const cy_stc_hppass_sar_grp_t ADC_SEQ0_M1_Config =
     {
-        .dirSampMsk = 0x810U,
-        .muxSampMsk = 0x2U,
+        .dirSampMsk = 0x080U, //0x810U
+        .muxSampMsk = 0x4U,
         .muxChanIdx = {0U,0U,0U,0U},
         .trig = CY_HPPASS_SAR_TRIG_0,
         .sampTime = CY_HPPASS_SAR_SAMP_TIME_0,
@@ -237,8 +237,8 @@ void MCU_RoutingConfigMUXB_M1()
     };
     const cy_stc_hppass_sar_grp_t ADC_SEQ1_M1_Config =
     {
-        .dirSampMsk = 0x800U,
-        .muxSampMsk = 0x4U,
+        .dirSampMsk = 0x000U, //0x800U
+        .muxSampMsk = 0x0U,
         .muxChanIdx = {0U,0U,0U,0U},
         .trig = CY_HPPASS_SAR_TRIG_1,
         .sampTime = CY_HPPASS_SAR_SAMP_TIME_0,
