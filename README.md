@@ -87,7 +87,7 @@ The CAN message IDs have been specifically written for [Infineon Mobile Robot (I
 - Motor control reference design board: [REF_48V_2x1KW_ASFOC](https://www.infineon.com/evaluation-board/REF-48V-2X1KW-ASFOC).
 - Angle sensor boards supplied together with the above reference design or separate board e.g. [DEMO_IMR_ANGLE_SENS_V1](https://www.infineon.com/evaluation-board/DEMO-IMR-ANGLE-SENS-V1).
 - Diametrical magnet suitable for the above sensor e.g. [SM-10x05-N-D](https://www.magnet-shop.com/neodymium/discmagnets/discmagnet-10.0-x-5.0-mm-n45-nickel-diametral-magnetized). Simulation tool to get the right design for the magnet and sensor is available [here](https://design.infineon.com/sensor/anglesim/index.html).
-- Associated motor, of which motor parameters are used in this code example: [T-MOTOR GL60 KV25](https://shop.tmotor.com/products/t-motor-cubemars-gl-series-out-running-gimbal-brushless-motor-gl60-high-precision-hollow-shaft-for-gopro-aerial-photography?srsltid=AfmBOop304FnngglpV7aqp4LnRk96rERR8SXZrmy-oCN1Am3AygFbya0) or motor suggested by the user manual of the above reference design board. However please note that the motor parameters have to be adjusted accordingly. 
+- Associated motor, of which motor parameters are used in this code example: [T-MOTOR GL60 KV25](https://store.cubemars.com/products/gl60-kv25?srsltid=AfmBOoo43LFEcBgF-joehwDfbFuc71DmEuLf7Sb7Uw1IsPBBfwHe3DWM) or motor suggested by the user manual of the above reference design board. However please note that the motor parameters have to be adjusted accordingly. 
 - Fixture to mount the magnet in the center of the motor and angle sensor. For example, for the above hardware, below drawing can be used.<br><br>
     <picture>
         <img src="./images/Fixture.jpg">
