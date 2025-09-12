@@ -91,7 +91,7 @@
 //--- Set status of the position sensors offset calibration
 //---------------------------------------------------------------------------
 #if defined(USING_TLI_5012B)
-#define OFFSET_CAL_DONE		1 	// 0 = offset calibration is not done for both sensors
+#define OFFSET_CAL_DONE		0 	// 0 = offset calibration is not done for both sensors
 								// 1 = offset calibration done for both sensors
 #endif
 

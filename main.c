@@ -150,10 +150,7 @@ int main(void)
    	#ifdef USING_CAN
 	can_fd_init();
 	#endif
-    
-    //motor[0].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE;
-    //motor[1].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE_M1;
-    
+
     //---------------------------------------------------------
     //--- setting for boards in Infineon Mobile Robot (IMR)
     //---------------------------------------------------------

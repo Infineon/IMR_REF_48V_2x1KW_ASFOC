@@ -151,7 +151,7 @@ Please watch out for the boards version:
     </picture>
     <br>
     &nbsp;
-<br><br>
+<br>
 
 User definitions and offset values to be set correctly in the code: 
 - BOARD_TYPE, MOTOR_TYPE and OFFSET_CAL_DONE in .../configuration/hw-Config/HardwareIface.h
