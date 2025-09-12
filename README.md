@@ -8,7 +8,7 @@
 
 ## Overview
 
-This code example demonstrates the position angle sensor-based dual motor control using the Infineon's PSOC™ Control C3 MCU and XENSIV™ TLx 5012B E1000. This code example includes the following solutions based on Rotor Field Oriented (RFO) control: 
+This code example (written in C programming language) demonstrates the position angle sensor-based dual motor control using the Infineon's PSOC™ Control C3 MCU and XENSIV™ TLx 5012B E1000. This code example includes the following solutions based on Rotor Field Oriented (RFO) control: 
 - Sensorless PMSM FOC with 3-shunt
 - GMR-based position angle sensor-based PMSM FOC
 
@@ -94,17 +94,24 @@ The CAN message IDs have been specifically written for [Infineon Mobile Robot (I
     </picture>
     &nbsp;
 - Programmer and Debugger for the board e.g. [XMC™ Link](https://www.infineon.com/evaluation-board/KIT-XMC-LINK-SEGGER-V1).
-- For testing CAN communication, [PCAN-USB](https://www.peak-system.com/Hardware.69.0.html?&L=1) will come in handy.
+- For testing CAN communication, [PCAN-USB FD](https://www.peak-system.com/PCAN-USB-FD.365.0.html?&L=1) will come in handy.
 
 See the respective kit quick start guide for the hardware setup information. For details, see the [User Manual](https://www.infineon.com/assets/row/public/documents/24/44/infineon-reference-board-ref-48v-2x1kw-asfoc-usermanual-en.pdf)  of the above reference design board. For testing CAN communication, ensure the CAN-H and CAN-L lines of the board are connected to the respective lines of the PCAN USB device. 
 
 
 ## Software requirements and setup
 
-- [ModusToolbox™](https://www.infineon.com/modustoolbox) v3.5 or later. See the [ModusToolbox™ tools package installation guide](https://www.infineon.com/ModusToolboxInstallguide) for information about installing and configuring the tools package.
-- Board support package (BSP) minimum required version: 1.0.3
-- Programming language: C
-- ModusToolbox™ Motor Suite GUI from the [Infineon Developer Center](https://www.infineon.com/idc) to evaluate the GUI features.
+- [ModusToolbox™ Setup](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.modustoolboxsetup) to allow the download of the following packages; See the [ModusToolbox™ tools package installation guide](https://www.infineon.com/ModusToolboxInstallguide) for information about installing and configuring the tools package.
+    - ModusToolbox™ Tools Package version 3.5.0 or later
+    - Eclipse IDE for ModusToolbox™ version 2025.4.0 or later
+- [ModusToolbox™ Motor Suite](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ifxmotorsolutions) to evaluate the GUI features.
+- Additionally, [Infineon Developer Center Launcher](https://softwaretools.infineon.com/tools/com.ifx.tb.launcher2) is useful to know which Infineon programs have been installed and to find other Infineon programs to be installed. 
+
+<img title="" alt="" src="./images/MTB_Software_1.png"><br><br>
+<img title="" alt="" src="./images/MTB_Software_2.png"><br><br>
+<img title="" alt="" src="./images/MTB_Software_3.png"><br><br>
+<img title="" alt="" src="./images/MTB_Software_4.png"><br><br>
+
 - [J-Link Software](https://www.segger.com/downloads/jlink/) to allow the use of XMC™ Link to program the board and debug the software. 
 - For testing CAN communication, install [PCAN-View](https://www.peak-system.com/PCAN-View.242.0.html?&L=1) to view, transmit, and record the CAN data traffic in Windows-based PC. 
 
@@ -118,22 +125,45 @@ See the respective kit quick start guide for the hardware setup information. For
 ## Important notes
 
 Please watch out for the boards version:
-- Power stage Si board V1.0 is considered to be old power board version. New version is labelled as V1.1. Ensure [BOARD_VERSION flag](#step10) is set accordingly. 
-- PSC3 control card V1.0 is considered to be the new control card version. Old version has no label. For V1.0, ensure the [pinout configuration](#step11) is correctly done accordingly. 
+- Power stage Si board V1.1 is equipped with S1 and S2 switches. Old version is labelled as V1.0 where S2 switch might not be present. 
+    - To provide the right 3.3V for the control card, ensure S1 toggle is either in position 1 for V1.1, or in position ON for V1.0
+    <picture>
+        <img src="./images/PwrBoard_V1p1_S1_3V3.jpg">
+    </picture>
+    <br>
+    &nbsp;
+    - Below picture is to indicate that the power board receives 48V input but is not fully switched ON yet (i.e. S2 switch is still in OFF position). 
+    <picture>
+        <img src="./images/PwrBoard_V1p1_S2_OFF.jpg">
+    </picture>
+    <br>
+    &nbsp;
+    - To fully switch on the power board and control card, S2 switch should be toggled ON as indicated in the picture below. 
+    <picture>
+        <img src="./images/PwrBoard_V1p1_S2_ON.jpg">
+    </picture>
+    <br>
+    &nbsp;
+- PSC3 control card V1.0 is considered to be the new control card version. Old version has no label. 
+    - If old control card version is in use, ensure the [pinout configuration](#step11) is correctly done accordingly. 
 <br><br>
 
-User definitions and offset values [to be set correctly](#using-the-code-example) in the code: 
-- BOARD_VERSION in .../configuration/hw-Config/HardwareIface.h
-- OFFSET_CAL_DONE in .../configuration/hw-Config/HardwareIface.h
-- GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h
+User definitions and offset values to be set correctly in the code: 
+- BOARD_TYPE, MOTOR_TYPE and OFFSET_CAL_DONE in .../configuration/hw-Config/HardwareIface.h
+    - By default, the BOARD_TYPE is set to be BOARD_MOSFET_DUAL in such a way the SWITCHING_DEVICE_TYPE is set to SI_MOSFET
+    - By default, the MOTOR_TYPE is set with the tested motor in this project i.e. GL60_KV25 but for other unknown motor, it can be set to NOT_SPECIFIED and the motor parameters can be adjusted manually by users. 
 - TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
 - TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16 in .../user_libs/TLx_5012B/TLI_5012B.c
+- GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h
 <br><br>
 
 This code example works with three different sources of speed input:
-- ModusToolbox™ Motor Suite GUI i.e. set Potentiometer Control in the GUI to OFF
-- Coming from [CAN communication](#step29) if GUI_CONTROL in user definition is set to 0
-- Coming from the [potentiometer board](#step30) (supplied together with control card) 
+- ModusToolbox™ Motor Suite i.e. set Potentiometer Control in the GUI to OFF
+    - GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h is set to 1, or
+	- GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h is set to 0, as long as no other subsystems or program controlling the speed input via CAN
+- Coming from [CAN communication](#step29)
+    - GUI_CONTROL in .../user_libs/CAN/IMR_CAN.h is set to 0
+- Coming from the [potentiometer board](#step32) (supplied together with control card) 
     - if Potentiometer Control in the ModusToolbox™ Motor Suite GUI is set to ON, or
     - MOTOR_CTRL_COMMAND_SOURCE and MOTOR_CTRL_COMMAND_SOURCE_M1 value in .../configuration/motor-ctrl-lib-config/ParamConfig.h are set to Internal
 
@@ -141,10 +171,11 @@ This code example works with three different sources of speed input:
 #### User LEDs indicator
 
 On the power stage board: 
-- Red LED indicates the board is powered on.
+- Red LED1 indicates the board receives 48V input voltage.
+- Red LED3 (only in V1.1) indicates the board S2 switch is toggled ON to provide power to the control card. 
 
 On the control card:
-- Green LED indicates the board is powered on.
+- Green LED indicates the board receives 3.3V input voltage.
 - Orange LED indicates the CAN communication with other subsystems is established.
 - Red LED indicates any faults detected by the board.
 
@@ -153,7 +184,13 @@ On the control card:
 
 <ol>
 <li id="step1"> Clone the project repository into the local drive.
-<br><br></li>
+<br><br>
+    <picture>
+        <img src="./images/MTB_Import_0.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
 <li id="step2"> Open the ModusToolbox™ IDE (e.g. Eclipse for ModusToolbox™ 2025.4) and import the project with the import wizard by pressing 'File' – 'Import…'. <br><br>
     <picture>
         <img src="./images/MTB_Import_1.png">
@@ -210,20 +247,19 @@ On the control card:
     <br>
     &nbsp;
 </li>
-<li id="step10"> If it is the first time that the motor is tested with the code without any knowledge of the position sensor offset value, ensure in HardwareIface.h, OFFSET_CAL_DONE is 0. This will set the motor control mode into Speed Mode FOC Sensorless.<br>
-Additionally, pay attention on the BOARD_VERSION value. It is set to 0 only when the Power Stage Si version is V1.0. 
+<li id="step10"> If the motor assembly is tested without any knowledge of the position sensor offset value, ensure in .../configuration/hw-Config/HardwareIface.h, OFFSET_CAL_DONE is 0. This will set the motor control mode into Speed Mode FOC Sensorless and allow user to calibrate the position sensor offset.<br>
+Also set the MOTOR_TYPE and BOARD_TYPE accordingly based on your own hardware. Set to NOT_SPECIFIED if your hardware type is not supported by the code default setting, and set the necessary parameters manually. 
 <br><br>
     <picture>
         <img src="./images/MTB_Import_9.png">
-    </picture><br>
-	<br>
-    <picture>
-        <img src="./images/PWRStage_v1p0.jpg">
     </picture>
 	<br>
     &nbsp;
 </li>
-<li id="step11"> Also if the PSC3 control card board is V1.0, one pinout configuration has to be modified by right clicking on the project, select 'ModusToolbox™' followed by 'Device Configurator 5...'.
+<li id="step11"> If PSC3 control card is V1.0 (the card on the right in the picture below), the following steps should be ignored and go directly to [clean the project](#step15) <br>
+If the PSC3 control card in use is the old version (the card on the left in the picture below), one pinout configuration has to be modified by:
+<ul>
+<li> right clicking on the project, select 'ModusToolbox™' followed by 'Device Configurator 5...'.
 <br><br>
     <picture>
         <img src="./images/CCard_Diff.jpg">
@@ -235,7 +271,7 @@ Additionally, pay attention on the BOARD_VERSION value. It is set to 0 only when
 	<br>
     &nbsp;
 </li>
-<li id="step12"> Go to 'Pins' tab and right click on P5[2] to copy its configuration and paste it to P2[0].
+<li id="step12"> Go to 'Pins' tab and right click on the Resource P2[0] to copy its configuration and paste it to P5[2].
 <br><br>
     <picture>
         <img src="./images/MTB_Import_11.png">
@@ -247,51 +283,60 @@ Additionally, pay attention on the BOARD_VERSION value. It is set to 0 only when
 	<br>
     &nbsp;
 </li>
-<li id="step13"> Additionally, cut the pin name EN_DRV_SGD_M1 from P5[2] and paste it to P2[0], followed by disabling P5[2] by unticking it. 
+<li id="step13a"> Additionally, cut the pin Name EN_DRV_SGD_M1 from P2[0] and paste it to P5[2] overwriting its previous Name, followed by disabling P5[2] by unticking it. 
 <br><br>
     <picture>
         <img src="./images/MTB_Import_13.png">
-    </picture>
+    </picture><br>
 	<br>
-    <picture><br>
+    <picture>
         <img src="./images/MTB_Import_14.png">
-    </picture>
-	<br>
-    <picture><br>
-        <img src="./images/MTB_Import_15.png">
     </picture>
 	<br>
     &nbsp;
 </li>
-<li id="step14"> Lastly save the new pinout configuration before closing the Device Configurator. 
+<li id="step13b"> Disable P2[0] and P5[3] by unticking them. Next go to 'Peripherals' tab and also disable Serial Communication Block (SCB) 3 by unticking it. 
 <br><br>
+    <picture>
+        <img src="./images/MTB_Import_15.png">
+    </picture><br>
+	<br>
     <picture>
         <img src="./images/MTB_Import_16.png">
     </picture>
 	<br>
     &nbsp;
 </li>
-<li id="step15"> Before building the project it is recommended to clean it by pressing 'Clean Project'. <br><br>
+<li id="step14"> Lastly save the new pinouts and peripherals configuration before closing the Device Configurator. 
+<br><br>
     <picture>
         <img src="./images/MTB_Import_17.png">
+    </picture>
+	<br>
+    &nbsp;
+</li>
+</ul>
+<li id="step15"> Before building the project it is recommended to clean it by pressing 'Clean Project'. If error is reported (e.g. Directory is not empty during the removal step), repress the 'Clean Project' one more time.<br><br>
+    <picture>
+        <img src="./images/MTB_Import_18.png">
     </picture>
     <br>
     &nbsp;
 </li>
 <li id="step16"> The project can now be compiled by pressing 'Build Project'. <br><br>
     <picture>
-        <img src="./images/MTB_Import_18.png">
+        <img src="./images/MTB_Import_19.png">
     </picture><br>
 	<br>
 	<picture>
-        <img src="./images/MTB_Import_19.png">
+        <img src="./images/MTB_Import_20.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step17"> To flash the board with the compiled code, first ensure that XMC™ Link ribbon cable is connected to the programming connector on the board and the board is powered with 48 VDC nominal. <br><br>
+<li id="step17"> To flash the board with the compiled code, first ensure that XMC™ Link is connected to the PC and its ribbon cable is connected to the programming connector on the board, and the board is powered with 48 VDC nominal. <br><br>
     <picture>
-        <img src="./images/MTB_Import_20.jpg">
+        <img src="./images/MTB_Import_21.jpg">
     </picture>
 	<br>
     &nbsp;
@@ -305,7 +350,7 @@ Additionally, ensure that XMC™ Link programmer is detected and connected to th
 	<br>
     &nbsp;
 </li>
-<li id="step19"> Press the 'Flash Firmware' button to flash the compiled code into the PSOC™ Control C3 microcontroller. Locate the hex file correctly e.g. by selecting the 'Last Selected' option. Subsequently, press the next button 'Select ELF File' to allow the GUI to access the right variables for the project. 
+<li id="step19"> Press the 'Flash Firmware' button to flash the compiled code into the PSOC™ Control C3 microcontroller. Locate the hex file correctly e.g. by selecting the 'Last Selected' option. Subsequently, press the next button 'Select ELF File' to allow the GUI to access the right variables for the project. Select the associated ELF file in the project. 
 <br><br>
 	<picture>
         <img src="./images/MTB_Import_22.png">
@@ -313,14 +358,8 @@ Additionally, ensure that XMC™ Link programmer is detected and connected to th
     <br>
 	<picture>
         <img src="./images/MTB_Import_23.png">
-    </picture>
+    </picture><br>
     <br>
-    &nbsp;
-</li>
-<li id="step20"> Go to the Test Bench GUI to start to test the board for turning the motors. Each motor can be controlled individually by selecting the motor of interest from the drop-down list on right top corner of the Control Panel.<br>
-Additionally, a digital Oscilloscope can also be launched by pressing the second button (orange color) on the right top corner of the GUI. This oscilloscope will help to monitor up to 8 signals of interest e.g. position angle sensor readout from both motors.<br>
-For easy viewing of all signals, Auto Fit All Traces can be pressed to see all signals without the overlap. Sampling Clock Divider value can also be increased to allow wider time range within the screen.
-<br><br>
 	<picture>
         <img src="./images/MTB_Import_24.png">
     </picture><br>
@@ -331,8 +370,9 @@ For easy viewing of all signals, Auto Fit All Traces can be pressed to see all s
     <br>
     &nbsp;
 </li>
-<li id="step21"> To turn each motor, go to Command Panel, ensure that Drive is ENABLED and Potentiometer Control is OFF, and drag the slider or use the (+) button to start increasing the motor speed to desired value e.g. 40%.<br>
-Notice in the oscilloscope that TLI_5012B_ABS_POS.Theta_TLI_5012B_flt may not well coincide with vars[0].th_r_final.elec. This means the position sensor offset value is not yet correct. Likewise, do observe for the second motor i.e. TLI_5012B_ABS_POS_M1.Theta_TLI_5012B_flt and vars[1].th_r_final.elec.
+<li id="step20"> Go to the Test Bench GUI to start to test the board for turning the motors. Each motor can be controlled individually by selecting the motor of interest from the drop-down list on right top corner of the Control Panel.<br>
+Additionally, a digital Oscilloscope can also be launched by pressing the second button (orange color) on the right top corner of the GUI. This oscilloscope will help to monitor up to 8 signals of interest e.g. position angle sensor readout from both motors.<br>
+For easy viewing of all signals, 'Auto Fit All Traces' can be pressed to see all signals without the overlap. 'Sampling Clock' - 'Divider' value can also be increased to allow wider time range within the screen. Lastly, modify the variable of one of the channel for M0, e.g. from vars[0].i_uwb_fb.w to TLI_5012B_ABS_POS.Theta_TLI_5012B_flt for later step. Likewise for M1, e.g. from vars[1].i_uwb_fb.w to TLI_5012B_ABS_POS_M1.Theta_TLI_5012B_flt.
 <br><br>
 	<picture>
         <img src="./images/MTB_Import_26.png">
@@ -340,18 +380,17 @@ Notice in the oscilloscope that TLI_5012B_ABS_POS.Theta_TLI_5012B_flt may not we
     <br>
 	<picture>
         <img src="./images/MTB_Import_27.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_28.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step22"> To find the right offset value for the position angle sensor, launch a GUI Builder by pressing the first button (green button) on the right top corner of the GUI.<br>
-Press the open button ('Open Project') and navigate to the project folder to open the Enc_Sensor_Offsets.mcws project file. The project will automatically go into running mode once opened.<br><br>
-Alternatively, a new project can also be created by adding an input box (drag and drop) to contain the value of TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16 and remove the check for the 'Readonly', and set the minimum and maximum value to -32768 and 32767 accordingly. Add another input box for the second position sensor TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16. Press the play button ('Switch to Run Mode') once it is ready to deploy in real time.
+<li id="step21"> To turn each motor, go to Command Panel, ensure that Drive is ENABLED and Potentiometer Control is OFF, and drag the slider or use the (+) button to start increasing the motor speed to desired value e.g. 50%.<br>
+Press 'Set Multiple Scales' in the oscilloscope, and notice that TLI_5012B_ABS_POS.Theta_TLI_5012B_flt may not well coincide with vars[0].th_r_final.elec. This means the position sensor offset value is not yet correct.
 <br><br>
-	<picture>
-        <img src="./images/MTB_Import_28.png">
-    </picture><br>
-    <br>
 	<picture>
         <img src="./images/MTB_Import_29.png">
     </picture><br>
@@ -362,8 +401,9 @@ Alternatively, a new project can also be created by adding an input box (drag an
     <br>
     &nbsp;
 </li>
-<li id="step23"> Change the offset value until the 2 signals of TLI_5012B_ABS_POS.Theta_TLI_5012B_flt and vars[0].th_r_final.elec fully overlap. Likewise, do the same for the second motor.
-<br><br>
+<li id="step22"> To find the right offset value for Motor_0's position angle sensor, return to the GUI Test Bench window, and launch a GUI Builder by pressing the first button (green button) on the right top corner of the GUI.<br>
+Press the open button ('Open Project') and navigate to the project folder to open the Enc_Sensor_Offsets.mcws project file. The project will automatically go into running mode once opened.<br>
+Should you need to edit this custom GUI, press the pencil button ('Switch to Edit Mode') on top left corner to go into the edit mode.<br><br>
 	<picture>
         <img src="./images/MTB_Import_31.png">
     </picture><br>
@@ -377,55 +417,55 @@ Alternatively, a new project can also be created by adding an input box (drag an
     </picture>
     <br>
     &nbsp;
-</li>
-<li id="step24"> Once both offset values are found, update TLI_5012B.c with the values and set OFFSET_CAL_DONE to 1 in HardwareIface.h to allow the motor control mode to be Speed Mode FOC Encoder. 
+Alternatively, instead of opening a project, a new project can also be created in the GUI builder by adding an input box (drag and drop) to contain the value of TLI_5012B_ABS_POS._ENC_SENSOR_OFST_S16 and remove the check for the 'Readonly', and set the minimum and maximum value to -32768 and 32767 accordingly. Add another input box for the second position sensor TLI_5012B_ABS_POS_M1._ENC_SENSOR_OFST_S16.<br><br>
+Press the play button ('Switch to Run Mode') once it is ready to deploy in real time.
 <br><br>
 	<picture>
         <img src="./images/MTB_Import_34.png">
-    </picture><br>
+    </picture>
     <br>
+    &nbsp;
+</li>
+<li id="step23"> Change the offset value (type in the value and press ENTER) in real-time until the 2 signals of TLI_5012B_ABS_POS.Theta_TLI_5012B_flt and vars[0].th_r_final.elec fully overlap.
+<br><br>
 	<picture>
         <img src="./images/MTB_Import_35.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step25"> Rebuild the project in ModusToolbox™ IDE, and return to the ModusToolbox™ Motor Suite 'Configurator' Panel, and reflash the microcontroller with the new compiled code, and reupload the new ELF file.
+<li id="step23a"> Repeat this activity for Motor_1. Two variables to compare are TLI_5012B_ABS_POS_M1.Theta_TLI_5012B_flt and vars[1].th_r_final.elec.
 <br><br>
 	<picture>
         <img src="./images/MTB_Import_36.png">
-    </picture>
+    </picture><br>
     <br>
-    &nbsp;
-</li>
-<li id="step26"> Retest the board for the Speed Mode FOC Encoder control mode. 
-<br><br>
 	<picture>
         <img src="./images/MTB_Import_37.png">
     </picture><br>
     <br>
 	<picture>
         <img src="./images/MTB_Import_38.png">
-    </picture><br>
-    <br>
-	<picture>
-        <img src="./images/MTB_Import_39.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step27"> To check for the CAN communication, ensure the GUI_CONTROL is set to 0 in the IMR_CAN.h file. Rebuild the project, and reflash the compiled code into the microcontroller. Another method to reflash the board is by using ModusToolbox™ directly in the Quick Panel - Launches, select for <project_name> Program.   
+<li id="step24"> Once both offset values are found, update .../user_libs/TLx_5102B/TLI_5012B.c with the values and set OFFSET_CAL_DONE to 1 in .../configuration/hw-Config/HardwareIface.h to allow the motor control mode to be Speed Mode FOC Encoder. 
 <br><br>
+	<picture>
+        <img src="./images/MTB_Import_39.png">
+    </picture><br>
+    <br>
 	<picture>
         <img src="./images/MTB_Import_40.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step28"> Plug in the PCAN-USB device into the laptop. Open PCAN-View software, and set to 1 Mbps speed. Observe in the Receive section of the PCAN-USB device, CAN-ID 400h (from Motor_0) and 401h (from Motor_1) are regularly received at 100ms period. These IDs contain the motor speed and mechanical angle position for odometry information. 
+<li id="step25"> Rebuild the project in ModusToolbox™ IDE, and return to the ModusToolbox™ Motor Suite . It will notify to Reload ELF File due to new modification, but select Cancel and go to 'Configurator' Panel, and reflash the microcontroller with the new compiled code, followed by reuploading the new ELF file.
 <br><br>
 	<picture>
-        <img src="./images/MTB_Import_41.jpg">
+        <img src="./images/MTB_Import_41.png">
     </picture><br>
     <br>
 	<picture>
@@ -434,58 +474,220 @@ Alternatively, a new project can also be created by adding an input box (drag an
     <br>
 	<picture>
         <img src="./images/MTB_Import_43.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_44.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step29"> To test for the CAN communication, PCAN-USB can transmit a CAN-ID 380h with 2 bytes data length for a speed command to Motor_0 (press ENTER key to set the CAN message, and press SPACE key to transmit the message). A CAN-ID 381h can be used to transmit a speed command to Motor_1. 
+<li id="step26"> Retest the board for the Speed Mode FOC Encoder control mode. At very low speed e.g. 5 RPM command, the Sampling Clock - Divider in the Motor Suite Oscilloscope can be set to 80. For speed command of e.g. 100 RPM, the Divider can be set to 8. 
 <br><br>
-<table style="width:50%">
-  <tr>
-    <th align="left">Data (hex)</th>
-    <th align="left">Speed (RPM)</th>
-  </tr>
-  <tr>
-    <td>02 3C / FD C3</td>
-    <td>10 / -10</td>
-  </tr>
-  <tr>
-    <td>04 78 / FB 87</td>
-    <td>20 / -20</td>
-  </tr>
-  <tr>
-    <td>0C CB / F3 34</td>
-    <td>57.3 / -57.3</td>
-  </tr>
-</table>
-<br><br>
-	<picture>
-        <img src="./images/MTB_Import_44.png">
-    </picture><br>
-    <br>
 	<picture>
         <img src="./images/MTB_Import_45.png">
     </picture><br>
     <br>
 	<picture>
         <img src="./images/MTB_Import_46.png">
-    </picture>
+    </picture><br>
     <br>
-    &nbsp;
-</li>
-<li id="step30"> To provide motor speed input easily, a potentiometer board is included in the hardware kit. Ensure that the ribbon cable is connected between the potentiometer board and control card.<br>
-Set the Potentiometer Control in the GUI to ON for each motor and test it by turning the potentiometer. The rotation direction can be controlled by using the switch on potentiometer board. 
-<br><br>
 	<picture>
-        <img src="./images/MTB_Import_47.jpg">
+        <img src="./images/MTB_Import_47.png">
     </picture><br>
     <br>
 	<picture>
         <img src="./images/MTB_Import_48.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step27"> To check for the CAN-FD communication, ensure the GUI_CONTROL is set to 0 in the .../user_libs/CAN/IMR_CAN.h file. Rebuild the project, and reflash the compiled code into the microcontroller. Another method to reflash the board is by using ModusToolbox™ directly in the Quick Panel - Launches, select for <project_name> Program.   
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_49.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step28"> Plug in the PCAN-USB FD device into the PC. Open PCAN-View software, and set the nominal bit rate to 1 Mbps and data rate to 5 Mbps. Once the PCAN-USB FD hardware is connected, observe that the orange LED on control card light up. <br>
+Also observe in the Receive section of the PCAN-View, CAN-ID 400h (from Motor_0) and 401h (from Motor_1) messages are regularly received at 100ms period. These IDs contain the motor speed and mechanical angle position for odometry information. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_50.png">
     </picture><br>
     <br>
 	<picture>
-        <img src="./images/MTB_Import_49.jpg">
+        <img src="./images/MTB_Import_51.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_51.jpg">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step29"> To test the CAN-FD communication, use the Transmit section of PCAN-View, right click on it to create 'New Message'. A CAN-ID 380 with 2 bytes data length for a speed command to Motor_0 can set accordingly. Press SPACE key to send the message.<br>
+Similarly, a CAN-ID 381 can be used to transmit a speed command to Motor_1.<br>
+Edit each CAN-ID (right click and select 'Edit Message') 2-byte data to 00 00 to stop the motors from turning. 
+<br><br>
+<table style="width:50%">
+  <tr>
+    <th align="left">Data (hex)</th>
+    <th align="left">Speed (RPM)</th>
+    <th align="left">Data (hex)</th>
+    <th align="left">Speed (RPM)</th>
+  </tr>
+  <tr>
+    <td>02 3C</td>
+    <td>10</td>
+    <td>FD C3</td>
+    <td>-10</td>
+  </tr>
+  <tr>
+    <td>04 78</td>
+    <td>20</td>
+    <td>FB 87</td>
+    <td>-20</td>
+  </tr>
+  <tr>
+    <td>0C CB</td>
+    <td>57.3</td>
+    <td>F3 34</td>
+    <td>-57.3</td>
+  </tr>
+  <tr>
+    <td>00 00</td>
+    <td colspan="3">0 (to stop the motor from turning)</td>
+  </tr>
+</table>
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_52.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_53.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_54.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_55.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step30"> To test for the classic CAN communication, firstly disconnect the CAN connection in PCAN-View. 
+<br><br>
+    <picture>
+        <img src="./images/MTB_Import_56.png">
+    </picture>
+	<br>
+    &nbsp;
+Subsequently, the code has to be modified by: 
+<ul>
+<li> right clicking on the project, select 'ModusToolbox™' followed by 'Device Configurator 5...'.
+<br><br>
+    <picture>
+        <img src="./images/MTB_Import_57.png">
+    </picture>
+	<br>
+    &nbsp;
+</li>
+<li> Go to 'Peripherals' tab and select Channel 1 under Communication -> Controller Area Network FD (CAN FD) 0. This code repository is by default set to the CAN-FD mode, and notice that the Fast Bitrate Setting is present, with Data Bit Rate set to 5 Mbps and Nominal Bit Rate set to 1 Mbps.
+<br><br>
+    <picture>
+        <img src="./images/MTB_Import_58.png">
+    </picture>
+	<br>
+    &nbsp;
+</li>
+<li> Disable CAN FD Mode by unticking the CAN FD Mode, in order to be in Classic CAN mode, with Nominal Bit Rate set to 1 Mbps. Notice that afterwards the Fast Bitrate Setting disappears.
+<br><br>
+    <picture>
+        <img src="./images/MTB_Import_59.png">
+    </picture>
+	<br>
+    &nbsp;
+</li>
+<li> Lastly save the new peripherals configuration before closing the Device Configurator, rebuild the code, and reflash the MCU with this new version of software.
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_60.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+</ul>
+<li id="step31"> Reconnect the CAN connection in PCAN-View with setting of nominal bit rate 1 Mbps as shown. Redo the speed command test for both motors. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_61.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_62.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_63.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step31a"> Modify the transmitted message to remove the CAN FD setting, by right click on each CAN ID, select 'Edit Message', and untick the CAN FD in Message Type. Do for both CAN IDs. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_64.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_65.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_66.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_67.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step32"> To provide motor speed input easily, a potentiometer board is included in the hardware kit. Ensure that the ribbon cable is connected between the potentiometer board and control card.<br>
+Set the Potentiometer Control in the Motor Suite GUI to ON for each motor and test it by turning the potentiometer. The rotation direction can be controlled by using the switch on potentiometer board. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_68.jpg">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_68.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_69.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step32"> Alternatively, the code can be modified to have potentiometer control directly. Set MOTOR_CTRL_COMMAND_SOURCE and MOTOR_CTRL_COMMAND_SOURCE_M1 to Internal in .../configuration/motor-ctrl-lib-config/ParamConfig.h.<br>
+Rebuild the code, and reflash the MCU with this new version of software. The potentiometer can be used to control the speed of the motors without any need of Motor Suite or CAN connection. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_70.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_71.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_71.jpg">
     </picture>
     <br>
     &nbsp;

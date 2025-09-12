@@ -1437,15 +1437,11 @@ void MCU_RunISR0_M1()
 #endif
 
     const int32_t Curr_ADC_Half_Point_Ticks = (0x1<<11);
-    if (BOARD_VERSION != 0) { // currently active / new board HW version
-		motor[1].sensor_iface_ptr->i_samp_0.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPA])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
-    	motor[1].sensor_iface_ptr->i_samp_1.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPB])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
-    	motor[1].sensor_iface_ptr->i_samp_2.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPC])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
-	} else { // old board PWR_Si_V1.0 and PSC3M5_V0.2b (might no longer be in circulation)
-		motor[1].sensor_iface_ptr->i_samp_2.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPA])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
-    	motor[1].sensor_iface_ptr->i_samp_1.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPB])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
-    	motor[1].sensor_iface_ptr->i_samp_0.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPC])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
-	}
+    // swap motor[1]'s current sampling of phase U and W due to swapped connection with CSOA and CSOC of 6EDL7151
+	motor[1].sensor_iface_ptr->i_samp_2.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPA])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
+    motor[1].sensor_iface_ptr->i_samp_1.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPB])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
+    motor[1].sensor_iface_ptr->i_samp_0.raw = mcu[1].adc_scale.i_uvw * (Curr_ADC_Half_Point_Ticks - (uint16_t)mcu[1].dma_results[ADC_ISAMPC])*motor[1].params_ptr->sys.analog.shunt.current_sense_polarity;
+
 #if !defined(MOTOR_CTRL_DISABLE_ADDON_FEATURES)
 #if defined(ADC_SAMP_VU_M1_ENABLED) && defined(ADC_SAMP_VV_M1_ENABLED) && defined(ADC_SAMP_VW_M1_ENABLED)
     if(MCU_ArePhaseVoltagesMeasured(1))

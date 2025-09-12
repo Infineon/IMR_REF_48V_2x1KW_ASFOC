@@ -37,35 +37,77 @@
 #include "MCU.h"  // microcontroller
 #include "ParamConfig.h" // for fast-loop frequency
 
-#define BOARD_VERSION		0	// 0 = old version of PWR_Si_board V1.0
-								// 1 = new version of PWR Si_board e.g. V1.1
 
 //------ Smart Gate Driver ------------
 #ifndef USING_SGD
 #define USING_SGD
 #endif
-
-#if defined(USING_SGD)
-#include "6EDL_gateway.h"
-#endif
-
 //------ Position angle sensor --------
 #ifndef USING_TLI_5012B
 #define USING_TLI_5012B
-#define OFFSET_CAL_DONE		0 	// 0 = offset calibration is not done for both sensors
-								// 1 = offset calibration done for both sensors
 #endif
-
-#ifdef USING_TLI_5012B
-#include "TLI_5012B.h"
-#endif
-
 //----- CAN communication -------------
 #ifndef USING_CAN
 #define USING_CAN
 #endif
 //-------------------------------------
 
+#if defined(USING_SGD)
+#include "6EDL_gateway.h"
+#endif
+#if defined(USING_TLI_5012B)
+#include "TLI_5012B.h"
+#endif
+#if defined(USING_CAN)
+#include "IMR_CAN.h"
+#endif
+
+
+#define NOT_SPECIFIED				0	// any unknown types
+
+//----------------------------------------------------------------------------
+//--- Power switch types
+//----------------------------------------------------------------------------
+#define SI_MOSFET					1
+#define GAN_FET						2
+//----------------------------------------------------------------------------
+//--- Power board types
+//----------------------------------------------------------------------------
+#define BOARD_MOSFET_DUAL			1	// Si_MOSFET
+#define BOARD_GAN_DUAL				2	// GaN-FET
+//----------------------------------------------------------------------------
+//--- Motor types
+//----------------------------------------------------------------------------
+#define GL60_KV25					1	// IMR motor
+#define GM7008L_KV26				2	// R48 motor; TODO: to verify motor parameters
+
+
+//---------------------------------------------------------------------------
+//--- Select power board and motor type
+//---------------------------------------------------------------------------
+#define MOTOR_TYPE		GL60_KV25	//GM7008L_KV26 //NOT_SPECIFIED
+#define BOARD_TYPE		BOARD_MOSFET_DUAL //BOARD_GAN_DUAL //NOT_SPECIFIED
+//---------------------------------------------------------------------------
+//--- Set status of the position sensors offset calibration
+//---------------------------------------------------------------------------
+#if defined(USING_TLI_5012B)
+#define OFFSET_CAL_DONE		1 	// 0 = offset calibration is not done for both sensors
+								// 1 = offset calibration done for both sensors
+#endif
+
+
+//---------------------------------------------------------------------------
+//--- Power switch type determination
+//---------------------------------------------------------------------------
+#if (BOARD_TYPE == BOARD_MOSFET_DUAL)
+#define SWITCHING_DEVICE_TYPE	SI_MOSFET
+#elif (BOARD_TYPE == BOARD_GAN_DUAL)
+#define SWITCHING_DEVICE_TYPE	GAN_FET
+#else
+#define SWITCHING_DEVICE_TYPE	SI_MOSFET
+#endif
+//---------------------------------------------------------------------------
+
+
 void HW_IFACE_Init(uint8_t motor_id);
 void HW_IFACE_ConnectFcnPointers(void);
-

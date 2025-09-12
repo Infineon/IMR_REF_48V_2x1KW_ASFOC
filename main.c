@@ -52,10 +52,6 @@
 #include "TLI_5012B.h"
 #include "CtrlVars.h"
 
-#ifdef USING_CAN
-#include "IMR_CAN.h"
-#endif
-
 /*******************************************************************************
 * Global variable
 ********************************************************************************/
@@ -94,7 +90,6 @@ int main(void)
    
     // Initialise controller
     HW_IFACE_ConnectFcnPointers();         /* must be called before STATE_MACHINE_Init()  */
-    //STATE_MACHINE_Init();
 
     //---------------------------------------------------------
     //--- Initialise the SPI for 6EDL smart gate driver
@@ -156,8 +151,8 @@ int main(void)
 	can_fd_init();
 	#endif
     
-    motor[0].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE;
-    motor[1].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE_M1;
+    //motor[0].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE;
+    //motor[1].params_ptr->sys.cmd.source = MOTOR_CTRL_COMMAND_SOURCE_M1;
     
     //---------------------------------------------------------
     //--- setting for boards in Infineon Mobile Robot (IMR)

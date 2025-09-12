@@ -314,7 +314,7 @@ void manage_extComm_with_CAN(void)
 		if (DLM_BRD_POSITION == 0) { // front board
 			CAN_MSG_ID = MOT_FL_ENCODER_DATA;
 			//EncSpdL = (int16_t)(vars[0].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdL = (int16_t)(-TLI_5012B_ABS_POS.PLL.Omega_flt / 
+			EncSpdL = (int16_t)(TLI_5012B_ABS_POS.PLL.Omega_flt / 
 								(MOTOR_POLE / 2.0) * RADPS2_15BIT);
 			status = can_tx_request(CAN_MSG_ID,
 					(uint8_t[]) {(EncSpdL >> 8 & 0xFF), (EncSpdL & 0xFF),
@@ -328,7 +328,7 @@ void manage_extComm_with_CAN(void)
 
 			CAN_MSG_ID = MOT_FR_ENCODER_DATA;
 			//EncSpdR = (int16_t)(vars[1].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdR = (int16_t)(-TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
+			EncSpdR = (int16_t)(TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
 								(MOTOR_POLE_M1 / 2.0) * RADPS2_15BIT);
 			status = can_tx_request(CAN_MSG_ID,
 					(uint8_t[]) {(EncSpdR >> 8 & 0xFF), (EncSpdR & 0xFF),
@@ -342,7 +342,7 @@ void manage_extComm_with_CAN(void)
 			CAN_MSG_ID = MOT_BL_ENCODER_DATA;
 			// Wheel actual speed is 28.3% higher than command speed
 			//EncSpdL = (int16_t)(vars[1].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdL = (int16_t)(-TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
+			EncSpdL = (int16_t)(TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
 								(MOTOR_POLE_M1 / 2.0) * RADPS2_15BIT);
 			status = can_tx_request(CAN_MSG_ID,
 					(uint8_t[]) {(EncSpdL >> 8 & 0xFF), (EncSpdL & 0xFF),
@@ -356,7 +356,7 @@ void manage_extComm_with_CAN(void)
 
 			CAN_MSG_ID = MOT_BR_ENCODER_DATA;
 			//EncSpdR = (int16_t)(vars[0].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdR = (int16_t)(-TLI_5012B_ABS_POS.PLL.Omega_flt / 
+			EncSpdR = (int16_t)(TLI_5012B_ABS_POS.PLL.Omega_flt / 
 								(MOTOR_POLE / 2.0) * RADPS2_15BIT);
 			status = can_tx_request(CAN_MSG_ID,
 					(uint8_t[]) {(EncSpdR >> 8 & 0xFF), (EncSpdR & 0xFF),

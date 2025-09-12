@@ -69,8 +69,14 @@
 
 /*******Sampling*******/
 #define MOTOR_CTRL_FPWM_FS0_RATIO                  (1U)                        /*[], PWM to fast-loop frequency ratio*/
-#define MOTOR_CTRL_FASTLOOP_FREQ                   (15000.0f)                  /*[Hz], fast-loop frequency at least 1.2 decade above maximum electrical frequency, 1.5kHz~>25kHz*/
-#define MOTOR_CTRL_FS0_FS1_RATIO                   (15U)                       /*[], Fast-loop to slow-loop frequency ratio*/
+#if (SWITCHING_DEVICE_TYPE == SI_MOSFET)
+#define MOTOR_CTRL_FASTLOOP_FREQ                   (20000.0f)                  /*[Hz], fast-loop frequency at least 1.2 decade above maximum electrical frequency, 1.5kHz~>25kHz*/
+#elif (SWITCHING_DEVICE_TYPE == GAN_FET)
+#define MOTOR_CTRL_FASTLOOP_FREQ                   (50000.0f)                  /*[Hz], fast-loop frequency at least 1.2 decade above maximum electrical frequency, 1.5kHz~>25kHz*/
+#else
+#define MOTOR_CTRL_FASTLOOP_FREQ                   (20000.0f)                  /*[Hz], fast-loop frequency at least 1.2 decade above maximum electrical frequency, 1.5kHz~>25kHz*/
+#endif
+#define MOTOR_CTRL_FS0_FS1_RATIO                   (20U)                       /*[], Fast-loop to slow-loop frequency ratio*/
 
 /*******Analog Sensors*******/
 /*********Shunts*********/
@@ -233,11 +239,16 @@
 #endif
 /*******************************************************************************/
 /*******DC Supply*******/
+#if (MOTOR_TYPE == GL60_KV25)
 #define MOTOR_CTRL_VDC_NOM_VOLT                    (44.0f)                       /*[V], Nominal DC bus voltage*/
+#elif (MOTOR_TYPE == GM7008L_KV26)
+#define MOTOR_CTRL_VDC_NOM_VOLT                    (48.0f)                       /*[V], Nominal DC bus voltage*/
+#endif
 
 /*******************************************************************************/
 /*******Motor*******/
-#define MOTOR_POLE                                 (28.0f)                      /*[],  motor poles*/
+#if (MOTOR_TYPE == GL60_KV25)
+#define MOTOR_POLE                                 (28.0f)                      /*[],  motor poles*/  //24N28P
 #define MOTOR_LQ                                   (1.36E-3f)                   /*[H], Stator q-axis inductance*/
 #define MOTOR_LD                                   (1.36E-3f)                   /*[H], Stator d-axis inductance*/
 #define MOTOR_I_AM                                 (17.46E-3f)                  /*[Wb],  Rotor flux linkage*/
@@ -249,6 +260,33 @@
 #define MOTOR_VOLTAGE                              (24.0f)                      /*[V], motor voltage*/
 #define MOTOR_NORM_SPEED                           (300.0f)                     /*[RPM], nominal speed*/
 #define MOTOR_MAX_SPEED                            (500.0f)                     /*[RPM],  maximum no load speed*/
+#elif (MOTOR_TYPE == GM7008L_KV26)
+#define MOTOR_POLE                                 (22.0f)                      /*[],  motor poles*/ //24N22P
+#define MOTOR_LQ                                   (4.1e-3f)                    /*[H], Stator q-axis inductance*/
+#define MOTOR_LD                                   (2.7e-3f)                    /*[H], Stator d-axis inductance*/
+#define MOTOR_I_AM                                 (17.46E-3f)                  /*[Wb],  Rotor flux linkage*/ //to confirm
+#define MOTOR_R                                    (5.5E-3f)                    /*{Ohm],  stator resistance*/ //to confirm
+#define MOTOR_TORQUE_MAX                           (0.25f)                      /*[Nm],  maximum torque*/
+#define MOTOR_CURRENT_PEAK                         (2.0f)                       /*[A],  peak current rating*/
+#define MOTOR_CURRENT_CONT                         (1.0f)                       /*[A],  continuous current rating*/
+#define MOTOR_ID_MAX                               (0.2f)                       /*[A], maximum d-axis current*/ //to confirm
+#define MOTOR_VOLTAGE                              (48.0f)                      /*[V], motor voltage*/
+#define MOTOR_NORM_SPEED                           (300.0f)                     /*[RPM], nominal speed*/
+#define MOTOR_MAX_SPEED                            (500.0f)                     /*[RPM],  maximum no load speed*/
+#else //(MOTOR_TYPE == NOT_SPECIFIED)
+#define MOTOR_POLE                                 (28.0f)                      /*[],  motor poles*/  //24N28P
+#define MOTOR_LQ                                   (1.36E-3f)                   /*[H], Stator q-axis inductance*/
+#define MOTOR_LD                                   (1.36E-3f)                   /*[H], Stator d-axis inductance*/
+#define MOTOR_I_AM                                 (17.46E-3f)                  /*[Wb],  Rotor flux linkage*/
+#define MOTOR_R                                    (5.5E-3f)                    /*{Ohm],  stator resistance*/
+#define MOTOR_TORQUE_MAX                           (0.20f)                      /*[Nm],  maximum torque*/
+#define MOTOR_CURRENT_PEAK                         (2.0f)                       /*[A],  peak current rating*/
+#define MOTOR_CURRENT_CONT                         (1.0f)                       /*[A],  continuous current rating*/
+#define MOTOR_ID_MAX                               (0.2f)                       /*[A], maximum d-axis current*/
+#define MOTOR_VOLTAGE                              (24.0f)                      /*[V], motor voltage*/
+#define MOTOR_NORM_SPEED                           (300.0f)                     /*[RPM], nominal speed*/
+#define MOTOR_MAX_SPEED                            (500.0f)                     /*[RPM],  maximum no load speed*/
+#endif
 #if defined(CTRL_METHOD_SFO)
 #define MOTOR_MTPV_TORQUE_MARGIN                   (90.0f)                      /*[%],  MTPV torque margin*/
 #endif
@@ -311,9 +349,9 @@
 #define MOTOR_CTRL_BOOTSTRAP_TIME_M1                  (0.25f)                      /*[sec], Bootstrap capacitor charge time*/
 
 /*******Sampling*******/
-#define MOTOR_CTRL_FPWM_FS0_RATIO_M1                  (1U)                           /*[], PWM to fast-loop frequency ratio*/
+#define MOTOR_CTRL_FPWM_FS0_RATIO_M1                  MOTOR_CTRL_FPWM_FS0_RATIO      /*[], PWM to fast-loop frequency ratio*/ //(1U)
 #define MOTOR_CTRL_FASTLOOP_FREQ_M1                   MOTOR_CTRL_FASTLOOP_FREQ       /*[Hz], fast-loop frequency at least 1.2 decade above maximum electrical frequency, 1.5kHz~>25kHz*/
-#define MOTOR_CTRL_FS0_FS1_RATIO_M1                   (15U)                          /*[], Fast-loop to slow-loop frequency ratio*/
+#define MOTOR_CTRL_FS0_FS1_RATIO_M1                   MOTOR_CTRL_FS0_FS1_RATIO       /*[], Fast-loop to slow-loop frequency ratio*/ //(15U)
 
 /*******Analog Sensors*******/
 /*********Shunts*********/
@@ -404,7 +442,7 @@
 #define MOTOR_CTRL_SPEED_OL_CL_TR_COEFF_M1           (100.0f)                      /*[%], Open-loop to closed-loop transition coefficient*/
 
 #if defined(CTRL_METHOD_TBC)    
-#define MOTOR_CTRL_CURRENT_BYPASS_M1                   (false)                     /* Current Control bypass switch*/
+#define MOTOR_CTRL_CURRENT_BYPASS_M1                 (false)                       /* Current Control bypass switch*/
 #endif
 
 #if defined(CTRL_METHOD_RFO) || defined(CTRL_METHOD_TBC)
@@ -476,10 +514,15 @@
 #endif
 /*******************************************************************************/
 /*******DC Supply*******/
+#if (MOTOR_TYPE == GL60_KV25)
 #define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (44.0f)                      /*[V], Nominal DC bus voltage*/
+#elif (MOTOR_TYPE == GM7008L_KV26)
+#define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (48.0f)                      /*[V], Nominal DC bus voltage*/
+#endif
 
 /*******************************************************************************/
 /*******Motor*******/
+#if (MOTOR_TYPE == GL60_KV25)
 #define MOTOR_POLE_M1                                 (28.0f)                      /*[],  motor poles*/
 #define MOTOR_LQ_M1                                   (1.36E-3f)                   /*[H], Stator q-axis inductance*/
 #define MOTOR_LD_M1                                   (1.36E-3f)                   /*[H], Stator d-axis inductance*/
@@ -492,6 +535,33 @@
 #define MOTOR_VOLTAGE_M1                              (24.0f)                      /*[V], motor voltage*/
 #define MOTOR_NORM_SPEED_M1                           (300.0f)                     /*[RPM], nominal speed*/
 #define MOTOR_MAX_SPEED_M1                            (500.0f)                     /*[RPM],  maximum no load speed*/
+#elif (MOTOR_TYPE == GM7008L_KV26)
+#define MOTOR_POLE                                 (22.0f)                      /*[],  motor poles*/ //24N22P
+#define MOTOR_LQ                                   (4.1e-3f)                    /*[H], Stator q-axis inductance*/
+#define MOTOR_LD                                   (2.7e-3f)                    /*[H], Stator d-axis inductance*/
+#define MOTOR_I_AM                                 (17.46E-3f)                  /*[Wb],  Rotor flux linkage*/ //to confirm
+#define MOTOR_R                                    (5.5E-3f)                    /*{Ohm],  stator resistance*/ //to confirm
+#define MOTOR_TORQUE_MAX                           (0.25f)                      /*[Nm],  maximum torque*/
+#define MOTOR_CURRENT_PEAK                         (2.0f)                       /*[A],  peak current rating*/
+#define MOTOR_CURRENT_CONT                         (1.0f)                       /*[A],  continuous current rating*/
+#define MOTOR_ID_MAX                               (0.2f)                       /*[A], maximum d-axis current*/ //to confirm
+#define MOTOR_VOLTAGE                              (48.0f)                      /*[V], motor voltage*/
+#define MOTOR_NORM_SPEED                           (300.0f)                     /*[RPM], nominal speed*/
+#define MOTOR_MAX_SPEED                            (500.0f)                     /*[RPM],  maximum no load speed*/
+#else //(MOTOR_TYPE == NOT_SPECIFIED)
+#define MOTOR_POLE                                 (28.0f)                      /*[],  motor poles*/  //24N28P
+#define MOTOR_LQ                                   (1.36E-3f)                   /*[H], Stator q-axis inductance*/
+#define MOTOR_LD                                   (1.36E-3f)                   /*[H], Stator d-axis inductance*/
+#define MOTOR_I_AM                                 (17.46E-3f)                  /*[Wb],  Rotor flux linkage*/
+#define MOTOR_R                                    (5.5E-3f)                    /*{Ohm],  stator resistance*/
+#define MOTOR_TORQUE_MAX                           (0.20f)                      /*[Nm],  maximum torque*/
+#define MOTOR_CURRENT_PEAK                         (2.0f)                       /*[A],  peak current rating*/
+#define MOTOR_CURRENT_CONT                         (1.0f)                       /*[A],  continuous current rating*/
+#define MOTOR_ID_MAX                               (0.2f)                       /*[A], maximum d-axis current*/
+#define MOTOR_VOLTAGE                              (24.0f)                      /*[V], motor voltage*/
+#define MOTOR_NORM_SPEED                           (300.0f)                     /*[RPM], nominal speed*/
+#define MOTOR_MAX_SPEED                            (500.0f)                     /*[RPM],  maximum no load speed*/
+#endif
 #if defined(CTRL_METHOD_SFO)
 #define MOTOR_MTPV_TORQUE_MARGIN_M1                   (90.0f)                      /*[%],  MTPV torque margin*/
 #endif

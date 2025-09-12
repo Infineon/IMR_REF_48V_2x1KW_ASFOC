@@ -43,13 +43,8 @@
 
 #include "stdio.h"
 
-#define SI_MOSFET_INVTR		0
-#define GAN_FET_INVTR		1
 
 #define WATCHDOG_CLOCK		0		// DISABLED: 6EDL7141 watchdog clock on EN_DRV pin
-
-#define INVTR_TYPE	SI_MOSFET_INVTR
-//#define INVTR_TYPE	GAN_FET_INVTR
 
 /**
  * @addtogroup PMSM_FOC

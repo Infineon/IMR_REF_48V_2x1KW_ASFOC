@@ -42,10 +42,14 @@
 /*******************************************************************************
 * Definitions
 *******************************************************************************/
-#define GUI_CONTROL				0		// 0: speed given by IMR CAN command
-										// 1: speed given by Motor Suite GUI
+#define GUI_CONTROL				0		// 1: speed given by Motor Suite;
+										//    any CAN speed command is ignored
+										// 0: speed given by CAN command but  
+										//    Motor Suite can be used as long
+										//    as no other subsystems via CAN 
+										//    controlling the speed
 #define CAN_DATA_REFRESH_TIME	100   	// refresh time in msec
-#define CAN_SPEED_DIVIDER		32760.0	// divisor for CAN speed as CAN speed
+#define CAN_SPEED_DIVIDER		32760.0	// divisor for CAN speed
 										// 16380 is max. ADC value in pot.
 										// for IMR set to 32760
 #define DLM_BRD_POSITION		0		// 0: front position 0x407 bar-graph

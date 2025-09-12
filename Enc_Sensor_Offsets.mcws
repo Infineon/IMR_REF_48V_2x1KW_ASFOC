@@ -27,7 +27,7 @@
 			"unit": "",
 			"componentType": "numericIndicator",
 			"position": [
-				2,
+				6,
 				3
 			],
 			"componentIndex": 1,
@@ -37,7 +37,7 @@
 				6
 			],
 			"value": [
-				-28000
+				0
 			],
 			"minSize": [
 				4,
@@ -74,7 +74,7 @@
 			"unit": "",
 			"componentType": "numericIndicator",
 			"position": [
-				9,
+				14,
 				3
 			],
 			"componentIndex": 2,
@@ -84,7 +84,7 @@
 				6
 			],
 			"value": [
-				-19000
+				0
 			],
 			"minSize": [
 				4,
