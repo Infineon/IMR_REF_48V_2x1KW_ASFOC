@@ -126,26 +126,31 @@ See the respective kit quick start guide for the hardware setup information. For
 
 Please watch out for the boards version:
 - Power stage Si board V1.1 is equipped with S1 and S2 switches. Old version is labelled as V1.0 where S2 switch might not be present. 
-    - To provide the right 3.3V for the control card, ensure S1 toggle is either in position 1 for V1.1, or in position ON for V1.0
+    - To provide the right 3.3V for the control card, ensure S1 toggle is either in position 1 for V1.1, or in position ON for V1.0.<br><br>
     <picture>
         <img src="./images/PwrBoard_V1p1_S1_3V3.jpg">
     </picture>
     <br>
     &nbsp;
-    - Below picture is to indicate that the power board receives 48V input but is not fully switched ON yet (i.e. S2 switch is still in OFF position). 
+    - Below picture is to indicate that the power board receives 48V input but is not fully switched ON yet (i.e. S2 switch is still in OFF position).<br><br>
     <picture>
         <img src="./images/PwrBoard_V1p1_S2_OFF.jpg">
     </picture>
     <br>
     &nbsp;
-    - To fully switch on the power board and control card, S2 switch should be toggled ON as indicated in the picture below. 
+    - To fully switch on the power board and control card, S2 switch should be toggled ON as indicated in the picture below.<br><br>
     <picture>
         <img src="./images/PwrBoard_V1p1_S2_ON.jpg">
     </picture>
     <br>
     &nbsp;
-- PSC3 control card V1.0 is considered to be the new control card version. Old version has no label. 
-    - If old control card version is in use, ensure the [pinout configuration](#step11) is correctly done accordingly. 
+- PSC3 control card V1.0 is considered to be the new control card version (the card on the right in the picture below). Old version has no label. 
+    - If old control card version (the card on the left in the picture below) is in use, ensure the [pinout configuration](#step11) is correctly done accordingly.<br><br> 
+    <picture>
+        <img src="./images/CCard_Diff.jpg">
+    </picture>
+    <br>
+    &nbsp;
 <br><br>
 
 User definitions and offset values to be set correctly in the code: 
@@ -256,15 +261,11 @@ Also set the MOTOR_TYPE and BOARD_TYPE accordingly based on your own hardware. S
 	<br>
     &nbsp;
 </li>
-<li id="step11"> If PSC3 control card is V1.0 (the card on the right in the picture below), the following steps should be ignored and go directly to [clean the project](#step15) <br>
-If the PSC3 control card in use is the old version (the card on the left in the picture below), one pinout configuration has to be modified by:
+<li id="step11"> If PSC3 control card is V1.0, the following steps should be ignored and go directly to clean the project (Step 12) <br>
+If the PSC3 control card in use is the old version, one pinout configuration has to be modified by:
 <ul>
 <li> right clicking on the project, select 'ModusToolbox™' followed by 'Device Configurator 5...'.
 <br><br>
-    <picture>
-        <img src="./images/CCard_Diff.jpg">
-    </picture>
-	<br>
     <picture>
         <img src="./images/MTB_Import_10.png">
     </picture>
