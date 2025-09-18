@@ -35,7 +35,7 @@
                         </Aliases>
                     </Block>
                     <Parameters>
-                        <Param id="brs_0" value="false"/>
+                        <Param id="brs_0" value="true"/>
                         <Param id="brs_1" value="false"/>
                         <Param id="brs_10" value="false"/>
                         <Param id="brs_11" value="false"/>
@@ -67,11 +67,11 @@
                         <Param id="brs_7" value="false"/>
                         <Param id="brs_8" value="false"/>
                         <Param id="brs_9" value="false"/>
-                        <Param id="dataPrescaler" value="1"/>
+                        <Param id="dataPrescaler" value="2"/>
                         <Param id="dataSyncJumpWidth" value="4"/>
-                        <Param id="dataTimeSegment1" value="5"/>
+                        <Param id="dataTimeSegment1" value="15"/>
                         <Param id="dataTimeSegment2" value="4"/>
-                        <Param id="data_0_0" value="0x04030201"/>
+                        <Param id="data_0_0" value="0"/>
                         <Param id="data_0_1" value="0"/>
                         <Param id="data_0_10" value="0"/>
                         <Param id="data_0_11" value="0"/>
@@ -295,7 +295,7 @@
                         <Param id="data_15_7" value="0"/>
                         <Param id="data_15_8" value="0"/>
                         <Param id="data_15_9" value="0"/>
-                        <Param id="data_1_0" value="0x08070605"/>
+                        <Param id="data_1_0" value="0"/>
                         <Param id="data_1_1" value="0"/>
                         <Param id="data_1_10" value="0"/>
                         <Param id="data_1_11" value="0"/>
@@ -583,7 +583,7 @@
                         <Param id="data_9_7" value="0"/>
                         <Param id="data_9_8" value="0"/>
                         <Param id="data_9_9" value="0"/>
-                        <Param id="dlc_0" value="8"/>
+                        <Param id="dlc_0" value="15"/>
                         <Param id="dlc_1" value="0"/>
                         <Param id="dlc_10" value="0"/>
                         <Param id="dlc_11" value="0"/>
@@ -1065,7 +1065,7 @@
                         <Param id="esi_8" value="CY_CANFD_ESI_ERROR_ACTIVE"/>
                         <Param id="esi_9" value="CY_CANFD_ESI_ERROR_ACTIVE"/>
                         <Param id="extIDANDMask" value="536870911"/>
-                        <Param id="fdf_0" value="CY_CANFD_FDF_STANDARD_FRAME"/>
+                        <Param id="fdf_0" value="CY_CANFD_FDF_CAN_FD_FRAME"/>
                         <Param id="fdf_1" value="CY_CANFD_FDF_STANDARD_FRAME"/>
                         <Param id="fdf_10" value="CY_CANFD_FDF_STANDARD_FRAME"/>
                         <Param id="fdf_11" value="CY_CANFD_FDF_STANDARD_FRAME"/>
@@ -1169,15 +1169,15 @@
                         <Param id="modeFifo1" value="CY_CANFD_FIFO_MODE_BLOCKING"/>
                         <Param id="noOfRxBuffers" value="1"/>
                         <Param id="noOfTxBuffers" value="1"/>
-                        <Param id="nominalPrescaler" value="5"/>
-                        <Param id="nominalSyncJumpWidth" value="4"/>
-                        <Param id="nominalTimeSegment1" value="5"/>
-                        <Param id="nominalTimeSegment2" value="4"/>
+                        <Param id="nominalPrescaler" value="2"/>
+                        <Param id="nominalSyncJumpWidth" value="16"/>
+                        <Param id="nominalTimeSegment1" value="63"/>
+                        <Param id="nominalTimeSegment2" value="16"/>
                         <Param id="nonMatchingFramesExtended" value="CY_CANFD_REJECT_NON_MATCHING"/>
                         <Param id="nonMatchingFramesStandard" value="CY_CANFD_REJECT_NON_MATCHING"/>
                         <Param id="numberOfEXTIDFilters" value="0"/>
-                        <Param id="numberOfFifo0Elements" value="8"/>
-                        <Param id="numberOfFifo1Elements" value="8"/>
+                        <Param id="numberOfFifo0Elements" value="32"/>
+                        <Param id="numberOfFifo1Elements" value="32"/>
                         <Param id="numberOfSIDFilters" value="1"/>
                         <Param id="rejectRemoteFramesExtended" value="false"/>
                         <Param id="rejectRemoteFramesStandard" value="false"/>
@@ -1213,10 +1213,10 @@
                         <Param id="rtr_7" value="CY_CANFD_RTR_DATA_FRAME"/>
                         <Param id="rtr_8" value="CY_CANFD_RTR_DATA_FRAME"/>
                         <Param id="rtr_9" value="CY_CANFD_RTR_DATA_FRAME"/>
-                        <Param id="rxBufferDataValue" value="8"/>
+                        <Param id="rxBufferDataValue" value="32"/>
                         <Param id="rxCallback" value="canfd_rx_callback"/>
-                        <Param id="rxFifo0DataValue" value="8"/>
-                        <Param id="rxFifo1DataValue" value="8"/>
+                        <Param id="rxFifo0DataValue" value="32"/>
+                        <Param id="rxFifo1DataValue" value="32"/>
                         <Param id="sfecSidFilter0" value="CY_CANFD_SFEC_STORE_RX_FIFO_0"/>
                         <Param id="sfecSidFilter1" value="CY_CANFD_SFEC_STORE_RX_FIFO_1"/>
                         <Param id="sfecSidFilter10" value="CY_CANFD_SFEC_STORE_RX_FIFO_0"/>
@@ -1990,7 +1990,7 @@
                         <Param id="tdcOffset" value="0"/>
                         <Param id="topPointerLogicEnabledFifo0" value="false"/>
                         <Param id="topPointerLogicEnabledFifo1" value="false"/>
-                        <Param id="txBufferDataValue" value="8"/>
+                        <Param id="txBufferDataValue" value="64"/>
                         <Param id="txCallback" value="NULL"/>
                         <Param id="watermarkFifo0" value="0"/>
                         <Param id="watermarkFifo1" value="0"/>
@@ -3832,8 +3832,8 @@
                         </Aliases>
                     </Block>
                     <Parameters>
-                        <Param id="fracDivider" value="8"/>
-                        <Param id="intDivider" value="54"/>
+                        <Param id="fracDivider" value="26"/>
+                        <Param id="intDivider" value="86"/>
                         <Param id="startOnReset" value="true"/>
                     </Parameters>
                 </Personality>
@@ -3871,7 +3871,7 @@
                     <Parameters>
                         <Param id="ApiMode" value="HIGH_LEVEL"/>
                         <Param id="BitsOrder" value="MSB_FIRST"/>
-                        <Param id="DataRate" value="5000"/>
+                        <Param id="DataRate" value="8000"/>
                         <Param id="DeassertSelectLine" value="false"/>
                         <Param id="DropOnParityError" value="false"/>
                         <Param id="EnableFreeRunSclk" value="false"/>
@@ -3918,7 +3918,7 @@
                     <Parameters>
                         <Param id="ApiMode" value="HIGH_LEVEL"/>
                         <Param id="BitsOrder" value="MSB_FIRST"/>
-                        <Param id="DataRate" value="5000"/>
+                        <Param id="DataRate" value="8000"/>
                         <Param id="DeassertSelectLine" value="false"/>
                         <Param id="DropOnParityError" value="false"/>
                         <Param id="EnableFreeRunSclk" value="false"/>
@@ -4081,9 +4081,9 @@
                         <Param id="ClkHfCsv" value="false"/>
                         <Param id="accuracyCsv" value="99"/>
                         <Param id="actionCsv" value="FAULT"/>
-                        <Param id="divider" value="2"/>
+                        <Param id="divider" value="3"/>
                         <Param id="sourceClockCsv" value="IMO"/>
-                        <Param id="sourceClockNumber" value="0"/>
+                        <Param id="sourceClockNumber" value="2"/>
                     </Parameters>
                 </Personality>
                 <Personality template="hfclk" version="3.0">

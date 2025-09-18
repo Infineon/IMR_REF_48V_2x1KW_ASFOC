@@ -243,7 +243,7 @@
 #define MOTOR_CTRL_VDC_NOM_VOLT                    (44.0f)                       /*[V], Nominal DC bus voltage*/
 #elif (MOTOR_TYPE == GM7008L_KV26)
 #define MOTOR_CTRL_VDC_NOM_VOLT                    (48.0f)                       /*[V], Nominal DC bus voltage*/
-#else //NOT_SPECIFIED
+#else //(MOTOR_TYPE == NOT_SPECIFIED)
 #define MOTOR_CTRL_VDC_NOM_VOLT                    (48.0f)                       /*[V], Nominal DC bus voltage*/
 #endif
 
@@ -520,7 +520,7 @@
 #define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (44.0f)                      /*[V], Nominal DC bus voltage*/
 #elif (MOTOR_TYPE == GM7008L_KV26)
 #define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (48.0f)                      /*[V], Nominal DC bus voltage*/
-#else
+#else //(MOTOR_TYPE == NOT_SPECIFIED)
 #define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (48.0f)                      /*[V], Nominal DC bus voltage*/
 #endif
 

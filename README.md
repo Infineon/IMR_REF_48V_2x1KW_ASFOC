@@ -511,8 +511,8 @@ Press the play button ('Switch to Run Mode') once it is ready to deploy in real 
     <br>
     &nbsp;
 </li>
-<li id="step28"> Plug in the PCAN-USB FD device into the PC. Open PCAN-View software, and set the nominal bit rate to 1 Mbps and data rate to 5 Mbps. Once the PCAN-USB FD hardware is connected, observe that the orange LED on control card light up. <br>
-Also observe in the Receive section of the PCAN-View, CAN-ID 400h (from Motor_0) and 401h (from Motor_1) messages are regularly received at 100ms period. These IDs contain the motor speed and mechanical angle position for odometry information. 
+<li id="step28"> Plug in the PCAN-USB FD device into the PC. Open PCAN-View software, and select for ISO CAN FD, Clock Frequency 80 MHz, and set for Bit Rate Preset SAE J2284-4 (500k/2M). Once the PCAN-USB FD hardware is connected, observe that the orange LED on control card light up. <br>
+Also observe in the Receive section of the PCAN-View, CAN-ID 400h (from Motor_0) and 401h (from Motor_1) messages are regularly received at 100ms period. These IDs contain the motor speed and mechanical angle position for odometry information. Note that the CAN transmit from the control card has been set to CAN-FD with 64-byte message payload. 
 <br><br>
 	<picture>
         <img src="./images/MTB_Import_50.png">
@@ -528,9 +528,10 @@ Also observe in the Receive section of the PCAN-View, CAN-ID 400h (from Motor_0)
     <br>
     &nbsp;
 </li>
-<li id="step29"> To test the CAN-FD communication, use the Transmit section of PCAN-View, right click on it to create 'New Message'. A CAN-ID 380 with 2 bytes data length for a speed command to Motor_0 can set accordingly. Press SPACE key to send the message.<br>
+<li id="step29"> To test the CAN-FD communication, use the Transmit section of PCAN-View, right click on it to create 'New Message'. A CAN-ID 380 with 2 bytes data length for a speed command to Motor_0 can set accordingly, and enable the CAN-FD and Bit Rate Switch option.<br>
+Press SPACE key to send the message.<br>
 Similarly, a CAN-ID 381 can be used to transmit a speed command to Motor_1.<br>
-Edit each CAN-ID (right click and select 'Edit Message') 2-byte data to 00 00 to stop the motors from turning. 
+Similar messages can be added to set the 2-byte data to 00 00 to stop the motors from turning, or simply edit each CAN-ID (right click and select 'Edit Message') to set the 2-byte data to 00 00. 
 <br><br>
 <table style="width:50%">
   <tr>

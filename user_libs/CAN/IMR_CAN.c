@@ -124,25 +124,23 @@ CAN_STATUS_t can_tx_request(uint32_t CAN_ID, uint8_t* Target_Data,
 	cy_stc_canfd_t0_t t0 = {
 			.id  = CAN_ID,
 	        .rtr = CY_CANFD_RTR_DATA_FRAME,
-	        .xtd = CY_CANFD_XTD_STANDARD_ID,
-	        .esi = CY_CANFD_ESI_ERROR_PASSIVE
+	        .xtd = CY_CANFD_XTD_EXTENDED_ID, //CY_CANFD_XTD_STANDARD_ID,
+	        .esi = CY_CANFD_ESI_ERROR_ACTIVE //CY_CANFD_ESI_ERROR_PASSIVE
 	};
-	cy_stc_canfd_t1_t t1 = {
-			.dlc = Target_Data_Length,
-	        .brs = false,
-	        .fdf = CY_CANFD_FDF_STANDARD_FRAME,
+	/*cy_stc_canfd_t1_t t1 = {
+			.dlc = 15U, //Target_Data_Length,
+	        .brs = true, //false, 
+	        .fdf = CY_CANFD_FDF_CAN_FD_FRAME, //CY_CANFD_FDF_STANDARD_FRAME,
 	        .efc = false,
 	        .mm  = 0UL
-	};
-
+	};*/
 	uint32_t data[16] = {0};
 	for (uint8_t i = 0; i < Target_Data_Length; i++) {
 		((uint8_t*)data)[i] = Target_Data[i];
-	}
-
+	}		
 	cy_stc_canfd_tx_buffer_t msg_buffer = {
 			.t0_f = &t0,
-	        .t1_f = &t1,
+	        .t1_f = &CANFD_T1RegisterBuffer_0, //&t1,
 	        .data_area_f = data
 	};
 	cy_en_canfd_status_t status =
@@ -180,18 +178,20 @@ void CAN_IRQ_RX_MESSAGE_HANDLER(bool  msg_valid, uint8_t msg_buf_fifo_num,
             memcpy(canfd_data_buffer,canfd_rx_buf->data_area_f,canfd_dlc);
 
             /* Using definition to define front (0) and back (1) board */
+            /* Negate the received speed due to opposite direction 
+               between DLM PSOC C3 code and IMR_MAINCTRL code */
             if (DLM_BRD_POSITION == 0) { // front board
                 if (canfd_id == MOT_FL_SPEED_COMMAND) {
             		rx_speed[0] = (int16_t)
             				((uint16_t)canfd_data_buffer[0]) << 8 |
 							((uint16_t)canfd_data_buffer[1]);
-            		frac_speed[0] = (float)rx_speed[0] / CAN_SPEED_DIVIDER;
+            		frac_speed[0] = -(float)rx_speed[0] / CAN_SPEED_DIVIDER;
                 }
                 else if (canfd_id == MOT_FR_SPEED_COMMAND) {
                 	rx_speed[1] = (int16_t)
             				((uint16_t)canfd_data_buffer[0]) << 8 |
 							((uint16_t)canfd_data_buffer[1]);
-                	frac_speed[1] = (float)rx_speed[1] / CAN_SPEED_DIVIDER;
+                	frac_speed[1] = -(float)rx_speed[1] / CAN_SPEED_DIVIDER;
                 }
             }
             else if (DLM_BRD_POSITION == 1) { // back board
@@ -199,13 +199,13 @@ void CAN_IRQ_RX_MESSAGE_HANDLER(bool  msg_valid, uint8_t msg_buf_fifo_num,
             		rx_speed[0] = (int16_t)
             				((uint16_t)canfd_data_buffer[0]) << 8 |
 							((uint16_t)canfd_data_buffer[1]);
-            		frac_speed[0] = (float)rx_speed[0] / CAN_SPEED_DIVIDER;
+            		frac_speed[0] = -(float)rx_speed[0] / CAN_SPEED_DIVIDER;
                 }
                 else if (canfd_id == MOT_BR_SPEED_COMMAND) {
                 	rx_speed[1] = (int16_t)
             				((uint16_t)canfd_data_buffer[0]) << 8 |
 							((uint16_t)canfd_data_buffer[1]);
-                	frac_speed[1] = (float)rx_speed[1] / CAN_SPEED_DIVIDER;
+                	frac_speed[1] = -(float)rx_speed[1] / CAN_SPEED_DIVIDER;
                 }
             }
 #if (!GUI_CONTROL)
@@ -309,17 +309,23 @@ void manage_extComm_with_CAN(void)
 #endif
 
 		uint32_t CAN_MSG_ID;
+		uint8_t data_length;
+
+		data_length = 64;
+		uint8_t *data = (uint8_t *) calloc(data_length, sizeof(uint8_t));
 
 		/* Using definition to define front (0) and back (1) board */
 		if (DLM_BRD_POSITION == 0) { // front board
 			CAN_MSG_ID = MOT_FL_ENCODER_DATA;
-			//EncSpdL = (int16_t)(vars[0].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdL = (int16_t)(TLI_5012B_ABS_POS.PLL.Omega_flt / 
+			/* Negate the transmitted speed due to opposite direction 
+               between DLM PSOC C3 code and MAIN_CONTROL code */
+			EncSpdL = (int16_t)(-TLI_5012B_ABS_POS.PLL.Omega_flt / 
 								(MOTOR_POLE / 2.0) * RADPS2_15BIT);
-			status = can_tx_request(CAN_MSG_ID,
-					(uint8_t[]) {(EncSpdL >> 8 & 0xFF), (EncSpdL & 0xFF),
-								 (TLI_5012B_ABS_POS.Theta_MechRaw_U16 >> 8 & 0xFF),
-								 (TLI_5012B_ABS_POS.Theta_MechRaw_U16 & 0xFF)}, 4);
+			data[0] = EncSpdL >> 8 & 0xF;
+			data[1] = EncSpdL & 0xFF;
+			data[2] = TLI_5012B_ABS_POS.Theta_MechRaw_U16 >> 8 & 0xFF;
+			data[3] = TLI_5012B_ABS_POS.Theta_MechRaw_U16 & 0xFF;
+			status = can_tx_request(CAN_MSG_ID, data, data_length);
 			if (status == CAN_SUCCESS)
 				Cy_GPIO_Set(LED_STATUS_PORT, LED_STATUS_PIN);
 			else Cy_GPIO_Clr(LED_STATUS_PORT, LED_STATUS_PIN);
@@ -327,27 +333,26 @@ void manage_extComm_with_CAN(void)
 			Cy_SysLib_Delay(1);
 
 			CAN_MSG_ID = MOT_FR_ENCODER_DATA;
-			//EncSpdR = (int16_t)(vars[1].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdR = (int16_t)(TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
+			EncSpdR = (int16_t)(-TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
 								(MOTOR_POLE_M1 / 2.0) * RADPS2_15BIT);
-			status = can_tx_request(CAN_MSG_ID,
-					(uint8_t[]) {(EncSpdR >> 8 & 0xFF), (EncSpdR & 0xFF),
-								 (TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 >> 8 & 0xFF),
-								 (TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 & 0xFF)}, 4);
+			data[0] = EncSpdR >> 8 & 0xFF;
+			data[1] = EncSpdR & 0xFF;
+			data[2] = TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 >> 8 & 0xFF;
+			data[3] = TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 & 0xFF;
+			status = can_tx_request(CAN_MSG_ID, data, data_length);
 			if (status == CAN_SUCCESS)
 				Cy_GPIO_Set(LED_STATUS_PORT, LED_STATUS_PIN);
 			else Cy_GPIO_Clr(LED_STATUS_PORT, LED_STATUS_PIN);
 		}
 		else if (DLM_BRD_POSITION == 1) { // back board
 			CAN_MSG_ID = MOT_BL_ENCODER_DATA;
-			// Wheel actual speed is 28.3% higher than command speed
-			//EncSpdL = (int16_t)(vars[1].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdL = (int16_t)(TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
+			EncSpdL = (int16_t)(-TLI_5012B_ABS_POS_M1.PLL.Omega_flt / 
 								(MOTOR_POLE_M1 / 2.0) * RADPS2_15BIT);
-			status = can_tx_request(CAN_MSG_ID,
-					(uint8_t[]) {(EncSpdL >> 8 & 0xFF), (EncSpdL & 0xFF),
-								 (TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 >> 8 & 0xFF),
-								 (TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 & 0xFF)}, 4);
+			data[0] = EncSpdL >> 8 & 0xF;
+			data[1] = EncSpdL & 0xFF;
+			data[2] = TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 >> 8 & 0xFF;
+			data[3] = TLI_5012B_ABS_POS_M1.Theta_MechRaw_U16 & 0xFF;
+			status = can_tx_request(CAN_MSG_ID, data, data_length);
 			if (status == CAN_SUCCESS)
 				Cy_GPIO_Set(LED_STATUS_PORT, LED_STATUS_PIN);
 			else Cy_GPIO_Clr(LED_STATUS_PORT, LED_STATUS_PIN);
@@ -355,16 +360,17 @@ void manage_extComm_with_CAN(void)
 			Cy_SysLib_Delay(1);
 
 			CAN_MSG_ID = MOT_BR_ENCODER_DATA;
-			//EncSpdR = (int16_t)(vars[0].w_final_filt.elec * 2*PI / 60.0 * RADPS2_15BIT);
-			EncSpdR = (int16_t)(TLI_5012B_ABS_POS.PLL.Omega_flt / 
+			EncSpdR = (int16_t)(-TLI_5012B_ABS_POS.PLL.Omega_flt / 
 								(MOTOR_POLE / 2.0) * RADPS2_15BIT);
-			status = can_tx_request(CAN_MSG_ID,
-					(uint8_t[]) {(EncSpdR >> 8 & 0xFF), (EncSpdR & 0xFF),
-								 (TLI_5012B_ABS_POS.Theta_MechRaw_U16 >> 8 & 0xFF),
-								 (TLI_5012B_ABS_POS.Theta_MechRaw_U16 & 0xFF)}, 4);
+			data[0] = EncSpdR >> 8 & 0xFF;
+			data[1] = EncSpdR & 0xFF;
+			data[2] = TLI_5012B_ABS_POS.Theta_MechRaw_U16 >> 8 & 0xFF;
+			data[3] = TLI_5012B_ABS_POS.Theta_MechRaw_U16 & 0xFF;
+			status = can_tx_request(CAN_MSG_ID, data, data_length);
 			if (status == CAN_SUCCESS)
 				Cy_GPIO_Set(LED_STATUS_PORT, LED_STATUS_PIN);
 			else Cy_GPIO_Clr(LED_STATUS_PORT, LED_STATUS_PIN);
 		}
+		free(data);
 	}
 }
