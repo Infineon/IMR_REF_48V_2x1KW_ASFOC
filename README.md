@@ -599,10 +599,19 @@ Subsequently, the code has to be modified by:
 	<br>
     &nbsp;
 </li>
-<li> Go to 'Peripherals' tab and select Channel 1 under Communication -> Controller Area Network FD (CAN FD) 0. This code repository is by default set to the CAN-FD mode, and notice that the Fast Bitrate Setting is present, with Data Bit Rate set to 5 Mbps and Nominal Bit Rate set to 1 Mbps.
+<li> Go to 'Peripherals' tab and select Channel 1 under Communication -> Controller Area Network FD (CAN FD) 0. This code repository is by default set to the CAN-FD mode, and notice that the Fast Bitrate Setting is present, with Data Bit Rate set to 2 Mbps and Nominal Bit Rate set to 500 kbps.
+For CAN-FD to be successful, it is important to set the same Sampling Point in the BitRate Setting. 
 <br><br>
     <picture>
         <img src="./images/MTB_Import_58.png">
+    </picture><br>
+	<br>
+    <picture>
+        <img src="./images/MTB_Import_59.png">
+    </picture><br>
+	<br>
+    <picture>
+        <img src="./images/MTB_Import_60.png">
     </picture>
 	<br>
     &nbsp;
@@ -610,7 +619,11 @@ Subsequently, the code has to be modified by:
 <li> Disable CAN FD Mode by unticking the CAN FD Mode, in order to be in Classic CAN mode, with Nominal Bit Rate set to 1 Mbps. Notice that afterwards the Fast Bitrate Setting disappears.
 <br><br>
     <picture>
-        <img src="./images/MTB_Import_59.png">
+        <img src="./images/MTB_Import_61.png">
+    </picture><br>
+	<br>
+    <picture>
+        <img src="./images/MTB_Import_62.png">
     </picture>
 	<br>
     &nbsp;
@@ -618,29 +631,13 @@ Subsequently, the code has to be modified by:
 <li> Lastly save the new peripherals configuration before closing the Device Configurator, rebuild the code, and reflash the MCU with this new version of software.
 <br><br>
 	<picture>
-        <img src="./images/MTB_Import_60.png">
+        <img src="./images/MTB_Import_63.png">
     </picture>
     <br>
     &nbsp;
 </li>
 </ul>
 <li id="step31"> Reconnect the CAN connection in PCAN-View with setting of nominal bit rate 1 Mbps as shown. Redo the speed command test for both motors. 
-<br><br>
-	<picture>
-        <img src="./images/MTB_Import_61.png">
-    </picture><br>
-    <br>
-	<picture>
-        <img src="./images/MTB_Import_62.png">
-    </picture><br>
-    <br>
-	<picture>
-        <img src="./images/MTB_Import_63.png">
-    </picture>
-    <br>
-    &nbsp;
-</li>
-<li id="step31a"> Modify the transmitted message to remove the CAN FD setting, by right click on each CAN ID, select 'Edit Message', and untick the CAN FD in Message Type. Do for both CAN IDs. 
 <br><br>
 	<picture>
         <img src="./images/MTB_Import_64.png">
@@ -652,19 +649,14 @@ Subsequently, the code has to be modified by:
     <br>
 	<picture>
         <img src="./images/MTB_Import_66.png">
-    </picture><br>
-    <br>
-	<picture>
-        <img src="./images/MTB_Import_67.png">
     </picture>
     <br>
     &nbsp;
 </li>
-<li id="step32"> To provide motor speed input easily, a potentiometer board is included in the hardware kit. Ensure that the ribbon cable is connected between the potentiometer board and control card.<br>
-Set the Potentiometer Control in the Motor Suite GUI to ON for each motor and test it by turning the potentiometer. The rotation direction can be controlled by using the switch on potentiometer board. 
+<li id="step31a"> Modify the transmitted message to remove the CAN FD setting, by right click on each CAN ID, select 'Edit Message', and untick the CAN FD in Message Type. Do for both CAN IDs. 
 <br><br>
 	<picture>
-        <img src="./images/MTB_Import_68.jpg">
+        <img src="./images/MTB_Import_67.png">
     </picture><br>
     <br>
 	<picture>
@@ -673,6 +665,27 @@ Set the Potentiometer Control in the Motor Suite GUI to ON for each motor and te
     <br>
 	<picture>
         <img src="./images/MTB_Import_69.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_70.png">
+    </picture>
+    <br>
+    &nbsp;
+</li>
+<li id="step32"> To provide motor speed input easily, a potentiometer board is included in the hardware kit. Ensure that the ribbon cable is connected between the potentiometer board and control card.<br>
+Set the Potentiometer Control in the Motor Suite GUI to ON for each motor and test it by turning the potentiometer. The rotation direction can be controlled by using the switch on potentiometer board. 
+<br><br>
+	<picture>
+        <img src="./images/MTB_Import_71.jpg">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_71.png">
+    </picture><br>
+    <br>
+	<picture>
+        <img src="./images/MTB_Import_72.png">
     </picture>
     <br>
     &nbsp;
@@ -681,15 +694,15 @@ Set the Potentiometer Control in the Motor Suite GUI to ON for each motor and te
 Rebuild the code, and reflash the MCU with this new version of software. The potentiometer can be used to control the speed of the motors without any need of Motor Suite or CAN connection. 
 <br><br>
 	<picture>
-        <img src="./images/MTB_Import_70.png">
+        <img src="./images/MTB_Import_73.png">
     </picture><br>
     <br>
 	<picture>
-        <img src="./images/MTB_Import_71.png">
+        <img src="./images/MTB_Import_74.png">
     </picture><br>
     <br>
 	<picture>
-        <img src="./images/MTB_Import_71.jpg">
+        <img src="./images/MTB_Import_74.jpg">
     </picture>
     <br>
     &nbsp;
