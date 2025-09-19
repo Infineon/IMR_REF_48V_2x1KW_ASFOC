@@ -124,7 +124,7 @@ CAN_STATUS_t can_tx_request(uint32_t CAN_ID, uint8_t* Target_Data,
 	cy_stc_canfd_t0_t t0 = {
 			.id  = CAN_ID,
 	        .rtr = CY_CANFD_RTR_DATA_FRAME,
-	        .xtd = CY_CANFD_XTD_EXTENDED_ID, //CY_CANFD_XTD_STANDARD_ID,
+	        .xtd = CY_CANFD_XTD_STANDARD_ID,
 	        .esi = CY_CANFD_ESI_ERROR_ACTIVE //CY_CANFD_ESI_ERROR_PASSIVE
 	};
 	/*cy_stc_canfd_t1_t t1 = {
