@@ -81,7 +81,8 @@
 /* CAN-FD data buffer index to send data from */
 #define CANFD_BUFFER_INDEX      0
 /* Maximum incoming data length supported */
-#define CANFD_DLC               8
+#define CANFD_DLC               64 	// set to 64 for CAN-FD
+									// or set to 8 for classic CAN
 
 #if defined (CY_DEVICE_PSC3)
 #define CANFD_INTERRUPT         canfd_0_interrupts0_1_IRQn
