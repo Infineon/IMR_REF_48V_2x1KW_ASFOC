@@ -102,8 +102,10 @@ See the respective kit quick start guide for the hardware setup information. For
 ## Software requirements and setup
 
 - [ModusToolbox™ Setup](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.modustoolboxsetup) to allow the download of the following packages; See the [ModusToolbox™ tools package installation guide](https://www.infineon.com/ModusToolboxInstallguide) for information about installing and configuring the tools package.
-    - ModusToolbox™ Tools Package version 3.5.0 or later
-    - Eclipse IDE for ModusToolbox™ version 2025.4.0 or later
+    - ModusToolbox™ Tools Package version 3.5.0 (tested)
+    - Eclipse IDE for ModusToolbox™ version 2025.4.0 (tested)
+<br><em>Note that the code build of this repository is not tested for any other versions (earlier or later) of both the Tools Package and Eclipse IDE.</em>
+
 - [ModusToolbox™ Motor Suite](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ifxmotorsolutions) to evaluate the GUI features.
 - Additionally, [Infineon Developer Center Launcher](https://softwaretools.infineon.com/tools/com.ifx.tb.launcher2) is useful to know which Infineon programs have been installed and to find other Infineon programs to be installed. 
 
@@ -123,6 +125,30 @@ See the respective kit quick start guide for the hardware setup information. For
 
 
 ## Important notes
+
+To avoid any uncertainty in code build process, please update the ModusToolbox™ Manifest DB value to be equal to https://gitlab.intra.infineon.com/rsg/mtb-super-manifest/-/raw/multi_inst_motor_lib/mtb-super-manifest-fv2.xml
+- This setting can either be changed in ModusToolbox™ Library Manager (see [Step 7](#step7) to get into it), and go to Settings and select 'ModusToolbox Settings...'
+<br><br>
+<picture>
+    <img src="./images/MTB_ManifestDB_1.png">
+</picture><br>
+<br>
+<picture>
+    <img src="./images/MTB_ManifestDB_2.png">
+</picture>
+<br>
+&nbsp;
+- If the field is locked as it is shown in above image, change the setting in the Windows OS environment variable. Go to Control Panel -> System -> Advanced system settings -> Environment Variables. Click on System variable CyRemoteManifestOverride to edit its value to the link given above.
+<br><br>
+<picture>
+    <img src="./images/MTB_ManifestDB_3.png">
+</picture><br>
+<br>
+<picture>
+    <img src="./images/MTB_ManifestDB_4.png">
+</picture>
+<br>
+&nbsp;
 
 Please watch out for the boards version:
 - Power stage Si board V1.1 is equipped with S1 and S2 switches. Old version is labelled as V1.0 where S2 switch might not be present. 
@@ -171,6 +197,36 @@ This code example works with three different sources of speed input:
 - Coming from the [potentiometer board](#step32) (supplied together with control card) 
     - if Potentiometer Control in the ModusToolbox™ Motor Suite GUI is set to ON, or
     - MOTOR_CTRL_COMMAND_SOURCE and MOTOR_CTRL_COMMAND_SOURCE_M1 value in .../configuration/motor-ctrl-lib-config/ParamConfig.h are set to Internal
+
+The later version of ModusToolbox™ Motor Suite (i.e. 2.7.0) allows number of channels in its Oscilloscope to be increased to 10 to allow sufficient variables to be monitored for dual-motor control including variables to determine the offset value for the position angle sensor.<br>
+To set for this increase, 2 files need to be updated: 
+- Makefile : look for the field DEFINES+=MOTOR_CTRL_NO_OF_SCOPE_CHANNELS and change the value from 0x8 to 0x0A
+<br><br>
+<picture>
+    <img src="./images/MSO_Setting_1.png">
+</picture>
+<br>
+&nbsp;
+- probe_scope.c located in library mtb_shared/motor-ctrl-lib/release-v3.0.0/ThirdPartyLib/probescope/ : replace the content of this file with the content of <a href="./images/probe_scope.c">this</a>.
+<br><br>
+<picture>
+    <img src="./images/MSO_Setting_2.png">
+</picture>
+<br>
+&nbsp;
+- In ModusToolbox™ Motor Suite Oscilloscope (see [Step 17](#step20) to get into it), the 10 channels can be set, for example, as follows:<br><br>
+
+    - 'vars[0].i_uvw_fb.u',
+    - 'vars[0].i_uvw_fb.v',
+    - 'vars[0].i_uvw_fb.w',
+    - 'TLI_5012B_ABS_POS.Theta_TLI_5012B_flt',
+    - 'vars[0].th_r_final.elec',
+<br><br>	
+    - 'vars[1].i_uvw_fb.u',
+    - 'vars[1].i_uvw_fb.v',
+    - 'vars[1].i_uvw_fb.w',
+    - 'TLI_5012B_ABS_POS_M1.Theta_TLI_5012B_flt',
+    - 'vars[1].th_r_final.elec' 
 
 
 #### User LEDs indicator

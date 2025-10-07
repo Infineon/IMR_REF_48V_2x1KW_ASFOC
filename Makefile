@@ -92,7 +92,7 @@ DEFINES+=MOTOR_CTRL_NO_OF_MOTOR=0x02
 # Configure number of oscilloscope channels in the "Motor Suite"
 #
 # Supported values : 0 - 8, value 0 will disabled oscilloscope 
-DEFINES+=MOTOR_CTRL_NO_OF_SCOPE_CHANNELS=0x8
+DEFINES+=MOTOR_CTRL_NO_OF_SCOPE_CHANNELS=0x0A
 # Enable follwoing add-on function by remove "MOTOR_CTRL_DISABLE_ADDON_FEATURES" definition
 # 
 # Motor phase U,V and W voltage measurement; only used in "Dyno" mode
