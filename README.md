@@ -197,6 +197,7 @@ This code example works with three different sources of speed input:
 - Coming from the [potentiometer board](#step32) (supplied together with control card) 
     - if Potentiometer Control in the ModusToolbox™ Motor Suite GUI is set to ON, or
     - MOTOR_CTRL_COMMAND_SOURCE and MOTOR_CTRL_COMMAND_SOURCE_M1 value in .../configuration/motor-ctrl-lib-config/ParamConfig.h are set to Internal
+<br><br>
 
 The later version of ModusToolbox™ Motor Suite (i.e. 2.7.0) allows number of channels in its Oscilloscope to be increased to 10 to allow sufficient variables to be monitored for dual-motor control including variables to determine the offset value for the position angle sensor.<br>
 To set for this increase, 2 files need to be updated: 
@@ -214,19 +215,24 @@ To set for this increase, 2 files need to be updated:
 </picture>
 <br>
 &nbsp;
-- In ModusToolbox™ Motor Suite Oscilloscope (see [Step 17](#step20) to get into it), the 10 channels can be set, for example, as follows:<br><br>
+- In ModusToolbox™ Motor Suite Oscilloscope, the 10 channels can be set, for example, as follows:<br><br>
 
-    - 'vars[0].i_uvw_fb.u',
-    - 'vars[0].i_uvw_fb.v',
-    - 'vars[0].i_uvw_fb.w',
-    - 'TLI_5012B_ABS_POS.Theta_TLI_5012B_flt',
-    - 'vars[0].th_r_final.elec',
-<br><br>	
-    - 'vars[1].i_uvw_fb.u',
-    - 'vars[1].i_uvw_fb.v',
-    - 'vars[1].i_uvw_fb.w',
-    - 'TLI_5012B_ABS_POS_M1.Theta_TLI_5012B_flt',
-    - 'vars[1].th_r_final.elec' 
+    'vars[0].i_uvw_fb.u',
+    'vars[0].i_uvw_fb.v',
+    'vars[0].i_uvw_fb.w',
+    'TLI_5012B_ABS_POS.Theta_TLI_5012B_flt',
+    'vars[0].th_r_final.elec',
+    'vars[1].i_uvw_fb.u',
+    'vars[1].i_uvw_fb.v',
+    'vars[1].i_uvw_fb.w',
+    'TLI_5012B_ABS_POS_M1.Theta_TLI_5012B_flt',
+    'vars[1].th_r_final.elec'
+	
+<picture>
+    <img src="./images/MSO_Setting_3.png">
+</picture>
+<br>
+&nbsp;
 
 
 #### User LEDs indicator
