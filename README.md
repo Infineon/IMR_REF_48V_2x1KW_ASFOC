@@ -136,7 +136,7 @@ To avoid any uncertainty in code build process, please update the ModusToolboxâ„
 <picture>
     <img src="./images/MTB_ManifestDB_2.png">
 </picture>
-<br>
+<br><br>
 &nbsp;
 - If the field is locked as it is shown in above image, change the setting in the Windows OS environment variable. Go to Control Panel -> System -> Advanced system settings -> Environment Variables. Click on System variable CyRemoteManifestOverride to edit its value to the link given above.
 <br><br>
@@ -147,7 +147,7 @@ To avoid any uncertainty in code build process, please update the ModusToolboxâ„
 <picture>
     <img src="./images/MTB_ManifestDB_4.png">
 </picture>
-<br>
+<br><br>
 &nbsp;
 
 Please watch out for the boards version:
@@ -156,13 +156,13 @@ Please watch out for the boards version:
     <picture>
         <img src="./images/PwrBoard_V1p1_S1_3V3.jpg">
     </picture>
-    <br>
+    <br><br>
     &nbsp;
     - Below picture is to indicate that the power board receives 48V input but is not fully switched ON yet (i.e. S2 switch is still in OFF position).<br><br>
     <picture>
         <img src="./images/PwrBoard_V1p1_S2_OFF.jpg">
     </picture>
-    <br>
+    <br><br>
     &nbsp;
     - To fully switch on the power board and control card, S2 switch should be toggled ON as indicated in the picture below.<br><br>
     <picture>
@@ -175,9 +175,8 @@ Please watch out for the boards version:
     <picture>
         <img src="./images/CCard_Diff.jpg">
     </picture>
-    <br>
+    <br><br>
     &nbsp;
-<br>
 
 User definitions and offset values to be set correctly in the code: 
 - BOARD_TYPE, MOTOR_TYPE and OFFSET_CAL_DONE in .../configuration/hw-Config/HardwareIface.h
@@ -206,14 +205,14 @@ To set for this increase, 2 files need to be updated:
 <picture>
     <img src="./images/MSO_Setting_1.png">
 </picture>
-<br>
+<br><br>
 &nbsp;
 - probe_scope.c located in library mtb_shared/motor-ctrl-lib/release-v3.0.0/ThirdPartyLib/probescope/ : replace the content of this file with the content of <a href="./images/probe_scope.c">this</a>.
 <br><br>
 <picture>
     <img src="./images/MSO_Setting_2.png">
 </picture>
-<br>
+<br><br>
 &nbsp;
 - In ModusToolboxâ„¢ Motor Suite Oscilloscope, the 10 channels can be set, for example, as follows:<br><br>
 
