@@ -226,7 +226,7 @@
 #define MOTOR_CTRL_FLUX_WEAKEN_BW                  (3.0f)                        /*[Hz], Flux weakening loop bandwidth*/
 #endif
 /*********Rotor Pre-Alignment*********/
-#define MOTOR_CTRL_ALIGN_TIME                      (1.0f)                        /*[sec], Alignment time*/
+#define MOTOR_CTRL_ALIGN_TIME                      (0.001f)                      /*[sec], Alignment time*/ //set to very low since position sensor is used
 #define MOTOR_CTRL_ALIGN_VOLTAGE                   (0.5f * (MOTOR_R * MOTOR_CURRENT_CONT))  /*[Vpk], Alignment voltage*/
 
 /*********Six-Pulse Injection*********/
@@ -240,7 +240,7 @@
 /*******************************************************************************/
 /*******DC Supply*******/
 #if (MOTOR_TYPE == GL60_KV25)
-#define MOTOR_CTRL_VDC_NOM_VOLT                    (44.0f)                       /*[V], Nominal DC bus voltage*/
+#define MOTOR_CTRL_VDC_NOM_VOLT                    (44.0f)                       /*[V], Nominal DC bus voltage*/ //IMR is operated with 12S battery (nominal 44 VDC)
 #elif (MOTOR_TYPE == GM7008L_KV26)
 #define MOTOR_CTRL_VDC_NOM_VOLT                    (48.0f)                       /*[V], Nominal DC bus voltage*/
 #else //(MOTOR_TYPE == NOT_SPECIFIED)
@@ -503,7 +503,7 @@
 #define MOTOR_CTRL_FLUX_WEAKEN_BW_M1                 (3.0f)                       /*[Hz], Flux weakening loop bandwidth*/
 #endif
 /*********Rotor Pre-Alignment*********/
-#define MOTOR_CTRL_ALIGN_TIME_M1                     (1.0f)                       /*[sec], Alignment time*/
+#define MOTOR_CTRL_ALIGN_TIME_M1                     (0.001f)                     /*[sec], Alignment time*/ //set to very low since position sensor is used
 #define MOTOR_CTRL_ALIGN_VOLTAGE_M1                  (0.5f * (MOTOR_R_M1 * MOTOR_CURRENT_CONT_M1))  /*[Vpk], Alignment voltage*/
 
 /*********Six-Pulse Injection*********/
@@ -517,7 +517,7 @@
 /*******************************************************************************/
 /*******DC Supply*******/
 #if (MOTOR_TYPE == GL60_KV25)
-#define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (44.0f)                      /*[V], Nominal DC bus voltage*/
+#define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (44.0f)                      /*[V], Nominal DC bus voltage*/ //IMR is operated with 12S battery (nominal 44 VDC)
 #elif (MOTOR_TYPE == GM7008L_KV26)
 #define MOTOR_CTRL_VDC_NOM_VOLT_M1                   (48.0f)                      /*[V], Nominal DC bus voltage*/
 #else //(MOTOR_TYPE == NOT_SPECIFIED)
