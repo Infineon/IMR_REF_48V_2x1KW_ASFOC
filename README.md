@@ -101,7 +101,7 @@ See the respective kit quick start guide for the hardware setup information. For
 
 - [ModusToolbox™ Setup](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.modustoolboxsetup) to allow the download of the following packages; See the [ModusToolbox™ tools package installation guide](https://www.infineon.com/ModusToolboxInstallguide) for information about installing and configuring the tools package.
     - ModusToolbox™ Tools Package version 3.5.0 (tested)
-    - Eclipse IDE for ModusToolbox™ version 2025.4.0 (tested)<br>
+    - Eclipse IDE for ModusToolbox™ version 2025.4.0 (tested)<br><br>
     <em>Note that the code build of this repository is not tested for any other versions (earlier or later) of both the Tools Package and Eclipse IDE.</em>
 
 - [ModusToolbox™ Motor Suite](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ifxmotorsolutions) to evaluate the GUI features.
@@ -144,6 +144,12 @@ Please watch out for the boards version:
     - For the new control card, we discovered a small mistake in the PCB layout, which prevented the board to be used for lower input voltage < 30 VDC. To ensure proper board operation, please short pin 145 and pin 147 of the SO-DIMM header as shown in the picture below.<br><br>
         <img src="./images/CCard_Rework.png"><br><br>
     - If old control card version is in use, ensure the pin configuration is correctly done accordingly (see [Step 11](#step11)).<br><br> 
+
+Rework needed for the angle sensor board to ensure the sensor data can be read with SPI interface: 
+- If the selected angle sensor board is the DEMO_IMR_ANGLE_SENS_V1 / V2 board, please short the pin 4 DATA of the IC to the pin 4 MISO of P1 connector, as shown in the picture below.<br><br>
+    <img src="./images/ASBoard_IMR.jpg"><br><br>
+- If the selected angle sensor board is the one included in REF_48V_2x1KW_ASFOC kit, please replace R5 original value 470 Ohm to 0 Ohm.<br><br>
+    <img src="./images/ASBoard_REFNew.jpg"><br><br>
 
 User definitions and offset values to be set correctly in the code: 
 - BOARD_TYPE, MOTOR_TYPE and OFFSET_CAL_DONE in .../configuration/hw-Config/HardwareIface.h
@@ -224,7 +230,6 @@ On the control card:
 </li>
 <li id="step8"> Press the 'Update' button <br><br>
         <img src="./images/MTB_Import_7.png"><br><br>
-<br><br>
 </li>
 <li id="step9"> When the Update is completed the sucessful messages should be displayed. If the update failed, try it again by repressing the 'Update' button. If this also fails, try to clean the project before trying it again. <br><br>
         <img src="./images/MTB_Import_8.png"><br><br>
